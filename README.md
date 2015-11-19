@@ -22,6 +22,11 @@ SocialSDK.setDebugMode(true);
 SocialSDK.initWeibo("app_key");
 SocialSDK.oauthWeibo(context);
 ```
+- onActivityResult
+```java
+SocialSDK.oauthWeiboCallback(context, requestCode, resultCode, data);
+```
+
 - revoke
 ```java
 SocialSDK.revokeWeibo(context);
@@ -84,6 +89,13 @@ SocialSDK.revokeWeChat(context);
 ```java
 SocialSDK.initQQ(app_id);
 SocialSDK.oauthQQ(context);
+```
+
+- onActivityResult
+```java
+if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
+    SocialSDK.oauthQQCallback(requestCode, resultCode, data);
+}
 ```
 
 - revoke
