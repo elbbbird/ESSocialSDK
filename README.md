@@ -93,12 +93,13 @@ SocialSDK.revokeQQ(context);
 
 ## FAQ
 
-1. 关于三个平台的账号
+- 关于三个平台的账号   
 微博应用程序注册完成后，需要在后台配置测试账号，包名，签名信息，然后开始测试；   
 微信应用程序注册后，需要配置包名和签名，并提交审核通过，可以获得分享权限。SSO登录权限需要开发者认证。（保护费不到位，测试都不能做）   
-QQ需要在后台配置测试账号才能SSO登录。   
-2. 是否需要配置权限？   
-SDK已经在aar中添加三个平台需要的权限，以下
+QQ需要在后台配置测试账号才能SSO登录。
+
+- 是否需要配置权限？   
+SDK已经在aar中添加三个平台需要的权限，以下   
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -106,4 +107,5 @@ SDK已经在aar中添加三个平台需要的权限，以下
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
-3. ProGrard代码混淆
+
+- ProGrard代码混淆
