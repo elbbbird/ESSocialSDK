@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
 
 Properties secret = new Properties()
-secret.load(project.rootProject.file('secret.properties').newDataInputStream())
+if (!project.hasProperty('type')) {
+    secret.load(project.rootProject.file('secret.properties').newDataInputStream())
+}
 
 android {
     signingConfigs {

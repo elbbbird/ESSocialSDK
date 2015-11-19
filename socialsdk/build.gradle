@@ -13,7 +13,9 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 Properties secret = new Properties()
-secret.load(new FileInputStream(project.rootProject.file('secret.properties')))
+if (!project.hasProperty('type')) {
+    secret.load(project.rootProject.file('secret.properties').newDataInputStream())
+}
 
 android {
     compileSdkVersion 23
