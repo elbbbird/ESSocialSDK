@@ -5,18 +5,18 @@ secret.load(project.rootProject.file('secret.properties').newDataInputStream())
 
 android {
     signingConfigs {
-        debug {
+        release {
             keyAlias secret.getProperty("signing.key")
             keyPassword secret.getProperty('signing.pwd')
             storeFile file('actionshow')
             storePassword secret.getProperty('signing.pwd')
         }
 
-        release {
-            keyAlias secret.getProperty('signing.key')
-            keyPassword secret.getProperty('signing.pwd')
-            storeFile file('actionshow')
-            storePassword secret.getProperty('signing.pwd')
+        ci {
+            keyAlias 'elbbbirdstudio'
+            keyPassword 'android'
+            storeFile file('elbbbird-studio-debug.keystore')
+            storePassword 'android'
         }
     }
     compileSdkVersion 23
@@ -31,11 +31,21 @@ android {
     buildTypes {
 
         debug {
-            minifyEnabled true
+            if (project.hasProperty('type')) {
+                signingConfig signingConfigs.ci
+            } else {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         release {
+            if (project.hasProperty('type')) {
+                signingConfig signingConfigs.ci
+            } else {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
