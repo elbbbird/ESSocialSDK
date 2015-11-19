@@ -7,8 +7,9 @@ import com.elbbbird.android.socialsdk.model.SocialToken;
 import com.elbbbird.android.socialsdk.model.SocialUser;
 
 /**
+ * 用户信息持久化
+ * <p>
  * Created by zhanghailong-ms on 2015/11/16.
- * oauth获取到的用户信息持久化
  */
 public class SocialUserKeeper {
 

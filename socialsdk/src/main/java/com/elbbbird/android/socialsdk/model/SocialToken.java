@@ -1,8 +1,9 @@
 package com.elbbbird.android.socialsdk.model;
 
 /**
- * Created by zhanghailong-ms on 2015/11/16.
  * oauth token信息
+ * <p>
+ * Created by zhanghailong-ms on 2015/11/16.
  */
 public class SocialToken {
 

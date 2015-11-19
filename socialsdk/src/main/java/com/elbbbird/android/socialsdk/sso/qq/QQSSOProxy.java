@@ -11,6 +11,8 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 
 /**
+ * QQ授权proxy
+ * <p>
  * Created by zhanghailong-ms on 2015/11/17.
  */
 public class QQSSOProxy {

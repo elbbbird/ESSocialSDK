@@ -15,6 +15,8 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.net.RequestListener;
 
 /**
+ * 微博授权proxy
+ * <p>
  * Created by zhanghailong-ms on 2015/11/16.
  */
 public class WeiboSSOProxy {

@@ -1,5 +1,7 @@
 # ESSocialSDK [![Build Status](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK.svg?branch=master)](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK)
-社交登录，分享SDK。支持微信、微博、QQ登录，微信好友、微信朋友圈、微博、QQ好友、QQ空间分享。
+社交登录授权，分享SDK   
+支持微信、微博、QQ登录授权   
+微信好友、微信朋友圈、微博、QQ好友、QQ空间分享
 
 ## Gradle
 ```groovy
@@ -10,17 +12,45 @@ compile 'com.elbbbird.android:socialsdk:0.1.0@aar'
 
 ### Debug模式
 ```java
-SocialSDK.setDebugMode(true);
+SocialSDK.setDebugMode(true); //默认false
 ```
-默认`false`
 
-### SSO登录功能
+### 平台SSO授权功能
 
-#### 微博
+#### `ISocialOauthCallback`授权回调接口
+```java
+ISocialOauthCallback callback = new ISocialOauthCallback() {
+    @Override
+    public void onGetTokenSuccess(SocialToken token) {
+        //获取token成功
+        Log.i(TAG, "onGetTokenSuccess" + token.toString());
+    }
+
+    @Override
+    public void onGetUserSuccess(SocialUser user) {
+        //获取用户信息成功
+        Log.i(TAG, "onGetUserSuccess# " + user.toString());
+    }
+
+    @Override
+    public void onFailure(Exception e) {
+        //失败
+        Log.i(TAG, "onFailure# " + e.toString());
+    }
+
+    @Override
+    public void onCancel() {
+        //取消
+        Log.i(TAG, "onCancel#");
+    }
+};
+```
+
+#### 微博授权
 - oauth
 ```java
 SocialSDK.initWeibo("app_key");
-SocialSDK.oauthWeibo(context);
+SocialSDK.oauthWeibo(context, callback);
 ```
 - onActivityResult
 ```java
@@ -32,7 +62,7 @@ SocialSDK.oauthWeiboCallback(context, requestCode, resultCode, data);
 SocialSDK.revokeWeibo(context);
 ```
 
-#### 微信
+#### 微信授权
 - WXEntryActivity
 
   - 创建包名：package_name.wxapi
@@ -58,7 +88,7 @@ SocialSDK.revokeWeibo(context);
 - oauth
 ```java
 SocialSDK.initWeChat("app_id", "app_secret");
-SocialSDK.oauthWeChat(context);
+SocialSDK.oauthWeChat(context, callback);
 ```
 
 - revoke
@@ -66,7 +96,7 @@ SocialSDK.oauthWeChat(context);
 SocialSDK.revokeWeChat(context);
 ```
 
-#### QQ
+#### QQ授权
 - AndroidManifest.xml
 ```xml
 <activity
@@ -88,7 +118,7 @@ SocialSDK.revokeWeChat(context);
 - oauth
 ```java
 SocialSDK.initQQ(app_id);
-SocialSDK.oauthQQ(context);
+SocialSDK.oauthQQ(context, callback);
 ```
 
 - onActivityResult

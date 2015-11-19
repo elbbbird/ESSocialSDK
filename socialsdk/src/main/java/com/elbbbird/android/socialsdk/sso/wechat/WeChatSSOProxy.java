@@ -22,6 +22,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * 微信授权proxy
+ * <p>
  * Created by zhanghailong-ms on 2015/11/17.
  */
 public class WeChatSSOProxy {
@@ -61,7 +63,7 @@ public class WeChatSSOProxy {
                 callback.onCancel();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                callback.onFailure();
+                callback.onFailure(new Exception("BaseResp.ErrCode.ERR_AUTH_DENIED"));
                 break;
         }
     }
@@ -82,10 +84,10 @@ public class WeChatSSOProxy {
                         SocialToken token = new SocialToken(info.getString("openid"), info.getString("access_token"), info.getString("refresh_token"), /*info.getLong("expires_in")*/ 30 * 24 * 60 * 60);
                         callback.onGetTokenSuccess(token);
                     } catch (JSONException e) {
-                        callback.onFailure();
+                        callback.onFailure(e);
                     }
                 } catch (Exception e) {
-                    callback.onFailure();
+                    callback.onFailure(e);
                 }
             }
         }).start();
@@ -114,10 +116,10 @@ public class WeChatSSOProxy {
 
                             callback.onGetUserInfoSuccess(user);
                         } catch (JSONException e) {
-                            callback.onFailure();
+                            callback.onFailure(e);
                         }
                     } catch (Exception e) {
-                        callback.onFailure();
+                        callback.onFailure(e);
                     }
                 }
             }).start();
@@ -126,7 +128,7 @@ public class WeChatSSOProxy {
 
     private static String inputStream2String(InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int i = -1;
+        int i;
         while ((i = is.read()) != -1) {
             baos.write(i);
         }

@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.elbbbird.android.socialsdk.model.SocialInfo;
+import com.elbbbird.android.socialsdk.sso.ISocialOauthCallback;
 import com.elbbbird.android.socialsdk.sso.SocialSSOProxy;
 
 /**
- * Created by zhanghailong-ms on 2015/11/13.
  * 社交SDK
+ * <p>
+ * Created by zhanghailong-ms on 2015/11/13.
  */
 public class SocialSDK {
 
@@ -114,37 +116,85 @@ public class SocialSDK {
 
     }
 
-    public static void oauthWeChat(Context context) {
+    /**
+     * 授权微信
+     *
+     * @param context  context
+     * @param callback 回调接口
+     */
+    public static void oauthWeChat(Context context, ISocialOauthCallback callback) {
         if (!TextUtils.isEmpty(info.getWechatAppId()) && !TextUtils.isEmpty(info.getWeChatAppSecret()))
-            SocialSSOProxy.loginWeChat(context, info);
+            SocialSSOProxy.loginWeChat(context, info, callback);
     }
 
+    /**
+     * 移除微信授权
+     *
+     * @param context context
+     */
     public static void revokeWeChat(Context context) {
         SocialSSOProxy.logoutWeChat(context);
     }
 
-    public static void oauthWeibo(Context context) {
+    /**
+     * 微博授权
+     *
+     * @param context  context
+     * @param callback 回调接口
+     */
+    public static void oauthWeibo(Context context, ISocialOauthCallback callback) {
         if (!TextUtils.isEmpty(info.getWeiboAppKey()))
-            SocialSSOProxy.loginWeibo(context, info);
+            SocialSSOProxy.loginWeibo(context, info, callback);
     }
 
+    /**
+     * 移除微博授权
+     *
+     * @param context context
+     */
     public static void revokeWeibo(Context context) {
         SocialSSOProxy.logoutWeibo(context, info);
     }
 
+    /**
+     * 微博授权回调
+     *
+     * @param context     contxt
+     * @param requestCode request
+     * @param resultCode  result
+     * @param data        data
+     */
     public static void oauthWeiboCallback(Context context, int requestCode, int resultCode, Intent data) {
         SocialSSOProxy.loginWeiboCallback(context, info, requestCode, resultCode, data);
     }
 
-    public static void oauthQQ(Context context) {
+    /**
+     * QQ授权
+     *
+     * @param context  context
+     * @param callback 回调接口
+     */
+    public static void oauthQQ(Context context, ISocialOauthCallback callback) {
         if (!TextUtils.isEmpty(info.getQqAppId()))
-            SocialSSOProxy.loginQQ(context, info);
+            SocialSSOProxy.loginQQ(context, info, callback);
     }
 
+    /**
+     * 移除QQ授权
+     *
+     * @param context context
+     */
     public static void revokeQQ(Context context) {
         SocialSSOProxy.logoutQQ(context);
     }
 
+    /**
+     * QQ授权回调
+     *
+     * @param requestCode request
+     * @param resultCode  result
+     * @param data        data
+     */
     public static void oauthQQCallback(int requestCode, int resultCode, Intent data) {
         SocialSSOProxy.loginQQCallback(requestCode, resultCode, data);
     }

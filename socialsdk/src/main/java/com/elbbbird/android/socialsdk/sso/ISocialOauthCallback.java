@@ -1,19 +1,18 @@
-package com.elbbbird.android.socialsdk.sso.wechat;
+package com.elbbbird.android.socialsdk.sso;
 
 import com.elbbbird.android.socialsdk.model.SocialToken;
 import com.elbbbird.android.socialsdk.model.SocialUser;
 
 /**
- * 微信授权回调接口
+ * 绀句氦鎺堟潈鍥炶皟鎺ュ彛
  * <p>
- * Created by zhanghailong-ms on 2015/7/11.
+ * Created by zhanghailong-ms on 2015/11/19.
  */
-public interface IWXCallback {
-    void onGetCodeSuccess(String code);
+public interface ISocialOauthCallback {
 
     void onGetTokenSuccess(SocialToken token);
 
-    void onGetUserInfoSuccess(SocialUser user);
+    void onGetUserSuccess(SocialUser user);
 
     void onFailure(Exception e);
 

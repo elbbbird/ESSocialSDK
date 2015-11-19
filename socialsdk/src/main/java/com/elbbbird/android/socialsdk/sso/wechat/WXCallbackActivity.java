@@ -12,6 +12,8 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 /**
+ * 微信授权，分享回调activity
+ * <p>
  * Created by zhanghailong-ms on 2015/7/11.
  */
 

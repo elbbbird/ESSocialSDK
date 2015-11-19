@@ -6,13 +6,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.elbbbird.android.socialsdk.SocialSDK;
+import com.elbbbird.android.socialsdk.model.SocialToken;
+import com.elbbbird.android.socialsdk.model.SocialUser;
+import com.elbbbird.android.socialsdk.sso.ISocialOauthCallback;
 import com.tencent.connect.common.Constants;
 
 public class SocialActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "SocialActivity";
 
     private Button btnLoginWeibo;
     private Button btnLogoutWeibo;
@@ -53,13 +59,35 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    ISocialOauthCallback callback = new ISocialOauthCallback() {
+        @Override
+        public void onGetTokenSuccess(SocialToken token) {
+            Log.i(TAG, "onGetTokenSuccess" + token.toString());
+        }
+
+        @Override
+        public void onGetUserSuccess(SocialUser user) {
+            Log.i(TAG, "onGetUserSuccess# " + user.toString());
+        }
+
+        @Override
+        public void onFailure(Exception e) {
+            Log.i(TAG, "onFailure# " + e.toString());
+        }
+
+        @Override
+        public void onCancel() {
+            Log.i(TAG, "onCancel#");
+        }
+    };
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login_weibo:
                 SocialSDK.setDebugMode(true);
                 SocialSDK.initWeibo("1633462674");
-                SocialSDK.oauthWeibo(SocialActivity.this);
+                SocialSDK.oauthWeibo(SocialActivity.this, callback);
                 break;
             case R.id.btn_logout_weibo:
                 SocialSDK.revokeWeibo(SocialActivity.this);
@@ -67,7 +95,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_login_wechat:
                 SocialSDK.setDebugMode(true);
                 SocialSDK.initWeChat("wx3ecc7ffe590fd845", "1b3f07fa99d82232d360c359f6504980");
-                SocialSDK.oauthWeChat(SocialActivity.this);
+                SocialSDK.oauthWeChat(SocialActivity.this, callback);
                 break;
             case R.id.btn_logout_wechat:
                 SocialSDK.revokeWeChat(SocialActivity.this);
@@ -75,7 +103,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_login_qq:
                 SocialSDK.setDebugMode(true);
                 SocialSDK.initQQ("1104664609");
-                SocialSDK.oauthQQ(SocialActivity.this);
+                SocialSDK.oauthQQ(SocialActivity.this, callback);
                 break;
             case R.id.btn_logout_qq:
                 SocialSDK.revokeQQ(SocialActivity.this);

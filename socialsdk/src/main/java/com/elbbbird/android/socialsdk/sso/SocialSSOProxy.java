@@ -26,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ * 社交授权proxy
+ * <p>
  * Created by zhanghailong-ms on 2015/11/16.
  */
 public class SocialSSOProxy {
@@ -66,10 +68,11 @@ public class SocialSSOProxy {
     /**
      * 登录微博
      *
-     * @param context context
-     * @param info    社交信息
+     * @param context  context
+     * @param info     社交信息
+     * @param callback 回调接口
      */
-    public static void loginWeibo(final Context context, final SocialInfo info) {
+    public static void loginWeibo(final Context context, final SocialInfo info, final ISocialOauthCallback callback) {
         if (DEBUG)
             Log.i(TAG, "SocialSSOProxy.loginWeibo");
         WeiboSSOProxy.login(context, info, new WeiboAuthListener() {
@@ -78,19 +81,24 @@ public class SocialSSOProxy {
                 if (DEBUG)
                     Log.i(TAG, "SocialSSOProxy.loginWeibo#login onComplete");
                 final String token = bundle.getString("access_token");
-                final String expiresIn = bundle.getString("expires_in");
+                final String expiresIn = bundle.getString("expires_in", "0");
                 final String code = bundle.getString("code");
                 final String openId = bundle.getString("uid");
                 final SocialToken socialToken = new SocialToken(openId, token, "", Long.valueOf(expiresIn));
                 if (DEBUG)
                     Log.i(TAG, "social token info: code=" + code + ", token=" + socialToken.toString());
                 getUser(context).setToken(socialToken);
+                callback.onGetTokenSuccess(socialToken);
                 WeiboSSOProxy.getUserInfo(context, info, socialToken, new RequestListener() {
                     @Override
                     public void onComplete(String s) {
                         if (DEBUG)
                             Log.i(TAG, "SocialSSOProxy.loginWeibo#getUserInfo onComplete, \n\r" + s);
                         User user = User.parse(s);
+                        if (user == null) {
+                            callback.onFailure(new Exception("Sina user parse error."));
+                            return;
+                        }
                         int gender = SocialUser.GENDER_UNKNOWN;
                         if ("f".equals(user.gender))
                             gender = SocialUser.GENDER_FEMALE;
@@ -101,12 +109,14 @@ public class SocialSSOProxy {
                         if (DEBUG)
                             Log.i(TAG, socialUser.toString());
                         setUser(context, socialUser);
+                        callback.onGetUserSuccess(socialUser);
                     }
 
                     @Override
                     public void onWeiboException(WeiboException e) {
                         if (DEBUG)
                             Log.i(TAG, "SocialSSOProxy.loginWeibo#getUserInfo onWeiboException, e=" + e.toString());
+                        callback.onFailure(e);
                     }
                 });
             }
@@ -115,12 +125,14 @@ public class SocialSSOProxy {
             public void onWeiboException(WeiboException e) {
                 if (DEBUG)
                     Log.i(TAG, "SocialSSOProxy.loginWeibo#login onWeiboException, e=" + e.toString());
+                callback.onFailure(e);
             }
 
             @Override
             public void onCancel() {
                 if (DEBUG)
                     Log.i(TAG, "SocialSSOProxy.loginWeibo#login onCancel");
+                callback.onCancel();
             }
         });
     }
@@ -168,10 +180,11 @@ public class SocialSSOProxy {
     /**
      * 登录微信
      *
-     * @param context context
-     * @param info    社交信息
+     * @param context  context
+     * @param info     社交信息
+     * @param callback 回调接口
      */
-    public static void loginWeChat(final Context context, final SocialInfo info) {
+    public static void loginWeChat(final Context context, final SocialInfo info, final ISocialOauthCallback callback) {
         if (DEBUG)
             Log.i(TAG, "SocialSSOProxy.loginWeChat");
         WeChatSSOProxy.login(context, new IWXCallback() {
@@ -187,26 +200,30 @@ public class SocialSSOProxy {
                 if (DEBUG)
                     Log.i(TAG, "SocialSSOProxy.loginWeChat onGetCodeSuccess, token=" + token.toString());
                 getUser(context).setToken(token);
+                callback.onGetTokenSuccess(token);
                 WeChatSSOProxy.getUserInfo(context, info.getUrlForWeChatUserInfo(), token);
             }
 
             @Override
             public void onGetUserInfoSuccess(SocialUser user) {
                 if (DEBUG)
-                    Log.i(TAG, "SocialSSOProxy.loginWeChat onGetUserInfoSuccess, user=" + user.toString());
+                    Log.i(TAG, "SocialSSOProxy.loginWeChat onGetUserSuccess, user=" + user.toString());
                 setUser(context, user);
+                callback.onGetUserSuccess(user);
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(Exception e) {
                 if (DEBUG)
                     Log.i(TAG, "SocialSSOProxy.loginWeChat onFailure");
+                callback.onFailure(e);
             }
 
             @Override
             public void onCancel() {
                 if (DEBUG)
                     Log.i(TAG, "SocialSSOProxy.loginWeChat onCancel");
+                callback.onCancel();
             }
         }, info);
     }
@@ -225,6 +242,7 @@ public class SocialSSOProxy {
 
     private static Context context;
     private static SocialInfo info;
+    private static ISocialOauthCallback callback;
     private static IUiListener qqLoginListener = new IUiListener() {
         @Override
         public void onComplete(Object o) {
@@ -237,6 +255,7 @@ public class SocialSSOProxy {
                 final long expiresIn = info.getLong("expires_in");
                 final SocialToken socialToken = new SocialToken(openId, token, "", expiresIn);
                 getUser(context).setToken(socialToken);
+                callback.onGetTokenSuccess(socialToken);
                 QQSSOProxy.getUserInfo(context, SocialSSOProxy.info.getQqAppId(), socialToken, new IUiListener() {
                     @Override
                     public void onComplete(Object o) {
@@ -256,7 +275,9 @@ public class SocialSSOProxy {
                             if (DEBUG)
                                 Log.i(TAG, "SocialSSOProxy.loginQQ#getToken onComplete user=" + socialUser.toString());
                             setUser(context, socialUser);
+                            callback.onGetUserSuccess(socialUser);
                         } catch (JSONException e) {
+                            callback.onFailure(e);
                         }
                     }
 
@@ -265,15 +286,18 @@ public class SocialSSOProxy {
                         if (DEBUG)
                             Log.i(TAG, "SocialSSOProxy.loginQQ#getToken onError errorCode=" + uiError.errorCode
                                     + ", errorMsg=" + uiError.errorMessage + ", errorDetail=" + uiError.errorDetail);
+                        callback.onFailure(new Exception(uiError.errorCode + "#" + uiError.errorMessage + "#" + uiError.errorDetail));
                     }
 
                     @Override
                     public void onCancel() {
                         if (DEBUG)
                             Log.i(TAG, "SocialSSOProxy.loginQQ#getToken onCancel");
+                        callback.onCancel();
                     }
                 });
             } catch (JSONException e) {
+                callback.onFailure(e);
             }
         }
 
@@ -281,33 +305,37 @@ public class SocialSSOProxy {
         public void onError(UiError uiError) {
             if (DEBUG)
                 Log.i(TAG, "SocialSSOProxy.loginQQ onError");
+            callback.onFailure(new Exception(uiError.errorCode + "#" + uiError.errorMessage + "#" + uiError.errorDetail));
         }
 
         @Override
         public void onCancel() {
             if (DEBUG)
                 Log.i(TAG, "SocialSSOProxy.loginQQ onCancel");
+            callback.onCancel();
         }
     };
 
     /**
      * 登录QQ
      *
-     * @param context context
-     * @param info    社交信息
+     * @param context  context
+     * @param info     社交信息
+     * @param callback 回调接口
      */
-    public static void loginQQ(Context context, SocialInfo info) {
+    public static void loginQQ(Context context, SocialInfo info, ISocialOauthCallback callback) {
         if (DEBUG)
             Log.i(TAG, "SocialSSOProxy.loginQQ");
         SocialSSOProxy.context = context;
         SocialSSOProxy.info = info;
+        SocialSSOProxy.callback = callback;
         QQSSOProxy.login(context, info.getQqAppId(), info.getQqScope(), qqLoginListener);
     }
 
     /**
      * 登出QQ
      *
-     * @param context
+     * @param context context
      */
     public static void logoutQQ(Context context) {
         if (DEBUG)
