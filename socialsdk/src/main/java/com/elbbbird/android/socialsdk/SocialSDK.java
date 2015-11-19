@@ -119,7 +119,7 @@ public class SocialSDK {
             SocialSSOProxy.loginWeChat(context, info);
     }
 
-    public static void destroyWeChat(Context context) {
+    public static void revokeWeChat(Context context) {
         SocialSSOProxy.logoutWeChat(context);
     }
 
@@ -128,7 +128,7 @@ public class SocialSDK {
             SocialSSOProxy.loginWeibo(context, info);
     }
 
-    public static void destroyWeibo(Context context) {
+    public static void revokeWeibo(Context context) {
         SocialSSOProxy.logoutWeibo(context, info);
     }
 
@@ -141,7 +141,7 @@ public class SocialSDK {
             SocialSSOProxy.loginQQ(context, info);
     }
 
-    public static void destroyQQ(Context context) {
+    public static void revokeQQ(Context context) {
         SocialSSOProxy.logoutQQ(context);
     }
 

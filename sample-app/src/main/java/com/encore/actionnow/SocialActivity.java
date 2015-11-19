@@ -62,7 +62,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
                 SocialSDK.oauthWeibo(SocialActivity.this);
                 break;
             case R.id.btn_logout_weibo:
-                SocialSDK.destroyWeibo(SocialActivity.this);
+                SocialSDK.revokeWeibo(SocialActivity.this);
                 break;
             case R.id.btn_login_wechat:
                 SocialSDK.setDebugMode(true);
@@ -70,7 +70,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
                 SocialSDK.oauthWeChat(SocialActivity.this);
                 break;
             case R.id.btn_logout_wechat:
-                SocialSDK.destroyWeChat(SocialActivity.this);
+                SocialSDK.revokeWeChat(SocialActivity.this);
                 break;
             case R.id.btn_login_qq:
                 SocialSDK.setDebugMode(true);
@@ -78,7 +78,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
                 SocialSDK.oauthQQ(SocialActivity.this);
                 break;
             case R.id.btn_logout_qq:
-                SocialSDK.destroyQQ(SocialActivity.this);
+                SocialSDK.revokeQQ(SocialActivity.this);
                 break;
         }
     }
