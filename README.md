@@ -106,5 +106,4 @@ SDK已经在aar中添加三个平台需要的权限，以下
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
-
 3. ProGrard代码混淆
