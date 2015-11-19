@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+Properties secret = new Properties()
+secret.load(project.rootProject.file('secret.properties').newDataInputStream())
+
+android {
+    signingConfigs {
+        debug {
+            keyAlias secret.getProperty("signing.key")
+            keyPassword secret.getProperty('signing.pwd')
+            storeFile file('actionshow')
+            storePassword secret.getProperty('signing.pwd')
+        }
+
+        release {
+            keyAlias secret.getProperty('signing.key')
+            keyPassword secret.getProperty('signing.pwd')
+            storeFile file('actionshow')
+            storePassword secret.getProperty('signing.pwd')
+        }
+    }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+    defaultConfig {
+        applicationId "com.encore.actionnow"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName VERSION_NAME
+    }
+    buildTypes {
+
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'im.fir:sdk:latest.integration@aar'
+    compile project(':socialsdk')
+}

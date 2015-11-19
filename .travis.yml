@@ -1,0 +1,30 @@
+language: android
+jdk: oraclejdk8
+android:
+  components:
+    - build-tools-23.0.1
+    - android-23
+    - extra-android-support
+    - extra-google-m2repository
+    - extra-android-m2repository
+  licenses:
+      - 'android-sdk-preview-license-52d11cd2'
+      - 'android-sdk-license-.+'
+      - 'google-gdk-license-.+'
+
+before_install:
+
+# cache between builds
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.gradle
+
+script:
+  - echo "Travis branch is $TRAVIS_BRANCH"
+  - echo "Travis branch is in pull request $TRAVIS_PULL_REQUEST"
+  - ./gradlew build
+
+notifications:
+  webhooks: https://hook.bearychat.com/=bw7jj/travis/0058670829e6419e5093cc44828c10f6
+  email: false
