@@ -4,7 +4,7 @@ import com.elbbbird.android.socialsdk.model.SocialToken;
 import com.elbbbird.android.socialsdk.model.SocialUser;
 
 /**
- * 微信授权回调接口
+ * 寰俊鎺堟潈鍥炶皟鎺ュ彛
  * <p>
  * Created by zhanghailong-ms on 2015/7/11.
  */

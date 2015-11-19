@@ -12,7 +12,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 /**
- * 微信授权，分享回调activity
+ * 寰俊鎺堟潈锛屽垎浜洖璋僡ctivity
  * <p>
  * Created by zhanghailong-ms on 2015/7/11.
  */
