@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="34dp"
+        android:paddingTop="51dp">
+
+        <LinearLayout
+            android:id="@+id/social_oauth_ll_weibo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/social_oauth_iv_weibo"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/icon_weibo" />
+
+            <TextView
+                android:id="@+id/login_dialog_tv_weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/social_oauth_weibo"
+                android:textColor="#96938e"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/social_oauth_ll_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/login_dialog_weixin"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/icon_weixin" />
+
+            <TextView
+                android:id="@+id/login_dialog_tv_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/social_oauth_weixin"
+                android:textColor="#96938e"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/login_dialog_ll_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/login_dialog_qq"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/icon_qq" />
+
+            <TextView
+                android:id="@+id/login_dialog_tv_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/social_oauth_qq"
+                android:textColor="#96938e"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

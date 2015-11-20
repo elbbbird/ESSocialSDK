@@ -10,6 +10,7 @@ import com.elbbbird.android.socialsdk.SocialSDK;
 import com.elbbbird.android.socialsdk.model.SocialInfo;
 import com.elbbbird.android.socialsdk.model.SocialToken;
 import com.elbbbird.android.socialsdk.model.SocialUser;
+import com.elbbbird.android.socialsdk.otto.BusProvider;
 import com.elbbbird.android.socialsdk.sso.qq.QQSSOProxy;
 import com.elbbbird.android.socialsdk.sso.wechat.IWXCallback;
 import com.elbbbird.android.socialsdk.sso.wechat.WeChatSSOProxy;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 
 /**
  * 社交授权proxy
- * <p>
+ * <p/>
  * Created by zhanghailong-ms on 2015/11/16.
  */
 public class SocialSSOProxy {
@@ -337,10 +338,11 @@ public class SocialSSOProxy {
      *
      * @param context context
      */
-    public static void logoutQQ(Context context) {
+    public static void logoutQQ(Context context, SocialInfo socialInfo) {
         if (DEBUG)
             Log.i(TAG, "SocialSSOProxy.logoutQQ");
-        QQSSOProxy.logout(context, info.getQqAppId());
+        if (!TextUtils.isEmpty(socialInfo.getQqAppId()))
+            QQSSOProxy.logout(context, socialInfo.getQqAppId());
         removeUser(context);
     }
 
@@ -353,5 +355,16 @@ public class SocialSSOProxy {
      */
     public static void loginQQCallback(int requestCode, int resultCode, Intent data) {
         Tencent.onActivityResultData(requestCode, resultCode, data, qqLoginListener);
+    }
+
+    public static void login(Context context, SocialInfo info) {
+        if (DEBUG)
+            Log.i(TAG, "SocialSSOProxy.login");
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("info", info);
+        intent.putExtras(bundle);
+        intent.setClass(context, SocialOauthActivity.class);
+        context.startActivity(intent);
     }
 }

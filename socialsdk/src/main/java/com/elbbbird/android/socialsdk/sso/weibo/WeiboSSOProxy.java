@@ -16,7 +16,7 @@ import com.sina.weibo.sdk.net.RequestListener;
 
 /**
  * 微博授权proxy
- * <p>
+ * <p/>
  * Created by zhanghailong-ms on 2015/11/16.
  */
 public class WeiboSSOProxy {
@@ -52,6 +52,9 @@ public class WeiboSSOProxy {
             LogoutAPI logout = new LogoutAPI(context, info.getWeiboAppKey(), parseToken(token));
             logout.logout(listener);
         }
+
+        ssoHandler = null;
+        authInfo = null;
     }
 
     public static void getUserInfo(Context context, SocialInfo info, SocialToken token, RequestListener listener) {

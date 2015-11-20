@@ -13,7 +13,10 @@ import android.widget.Button;
 import com.elbbbird.android.socialsdk.SocialSDK;
 import com.elbbbird.android.socialsdk.model.SocialToken;
 import com.elbbbird.android.socialsdk.model.SocialUser;
+import com.elbbbird.android.socialsdk.otto.BusEvent;
+import com.elbbbird.android.socialsdk.otto.BusProvider;
 import com.elbbbird.android.socialsdk.sso.ISocialOauthCallback;
+import com.squareup.otto.Subscribe;
 import com.tencent.connect.common.Constants;
 
 public class SocialActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,6 +29,8 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
     private Button btnLogoutWeChat;
     private Button btnLoginQQ;
     private Button btnLogoutQQ;
+    private Button btnLoginAll;
+    private Button btnLogoutAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,12 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
         btnLoginQQ.setOnClickListener(this);
         btnLogoutQQ = (Button) findViewById(R.id.btn_logout_qq);
         btnLogoutQQ.setOnClickListener(this);
+        btnLoginAll = (Button) findViewById(R.id.btn_login_all);
+        btnLoginAll.setOnClickListener(this);
+        btnLogoutAll = (Button) findViewById(R.id.btn_logout_all);
+        btnLogoutAll.setOnClickListener(this);
+
+        BusProvider.getInstance().register(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +119,14 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_logout_qq:
                 SocialSDK.revokeQQ(SocialActivity.this);
                 break;
+            case R.id.btn_login_all:
+                SocialSDK.setDebugMode(true);
+                SocialSDK.init("wx3ecc7ffe590fd845", "1b3f07fa99d82232d360c359f6504980", "1633462674", "1104664609");
+                SocialSDK.oauth(SocialActivity.this);
+                break;
+            case R.id.btn_logout_all:
+                SocialSDK.revoke(SocialActivity.this);
+                break;
         }
     }
 
@@ -118,5 +137,32 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
         if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
             SocialSDK.oauthQQCallback(requestCode, resultCode, data);
         }
+    }
+
+    @Subscribe
+    public void onOauthResult(BusEvent event) {
+        switch (event.getType()) {
+            case BusEvent.TYPE_GET_TOKEN:
+                SocialToken token = event.getToken();
+                Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
+                break;
+            case BusEvent.TYPE_GET_USER:
+                SocialUser user = event.getUser();
+                Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
+                break;
+            case BusEvent.TYPE_FAILURE:
+                Exception e = event.getException();
+                Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
+                break;
+            case BusEvent.TYPE_CANCEL:
+                Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
     }
 }

@@ -26,5 +26,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- QQ SDK END -->
+
+        <activity
+            android:name=".sso.SocialOauthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" />
     </application>
 </manifest>

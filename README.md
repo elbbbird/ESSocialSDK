@@ -47,6 +47,9 @@ ISocialOauthCallback callback = new ISocialOauthCallback() {
 ```
 
 #### 微博授权
+- 配置微博后台回调地址   
+SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
+如果在`SocialSDK.initWeibo()`方法自定义了回调地址，需要在后台配置为相应地址。
 - oauth
 ```java
 SocialSDK.initWeibo("app_key");
@@ -63,17 +66,17 @@ SocialSDK.revokeWeibo(context);
 ```
 
 #### 微信授权
-- WXEntryActivity
 
-  - 创建包名：package_name.wxapi
-  - 在该包名下创建类`WXEntryActivity`继承自`WXCallbackActivity`
+- WXEntryActivity   
+创建包名：`package_name.wxapi`  
+在该包名下创建类`WXEntryActivity`继承自`WXCallbackActivity`   
 
-  ```java
-  package com.encore.actionnow.wxapi;
-  public class WXEntryActivity extends WXCallbackActivity {
+```java
+package com.encore.actionnow.wxapi;
+public class WXEntryActivity extends WXCallbackActivity {
 
-  }
-  ```
+}
+```
 
 - AndroidManifest.xml
 ```xml
@@ -131,6 +134,94 @@ if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_A
 - revoke
 ```java
 SocialSDK.revokeQQ(context);
+```
+#### SDK默认授权界面，展示全平台授权接口
+- 配置微博后台回调地址   
+SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
+如果在`SocialSDK.init()`方法自定义了回调地址，需要在后台配置为相应地址。
+
+- WXEntryActivity   
+创建包名：`package_name.wxapi`   
+在该包名下创建类`WXEntryActivity`继承自`WXCallbackActivity`   
+
+```java
+package com.encore.actionnow.wxapi;
+public class WXEntryActivity extends WXCallbackActivity {
+
+}
+```
+
+- AndroidManifest.xml   
+```xml
+<activity
+    android:name=".wxapi.WXEntryActivity"
+    android:configChanges="keyboardHidden|orientation|screenSize"
+    android:exported="true"
+    android:screenOrientation="portrait"
+    android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+<activity
+    android:name="com.tencent.tauth.AuthActivity"
+    android:launchMode="singleTask"
+    android:noHistory="true">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data android:scheme="tencentXXXXXXXXX" />
+    </intent-filter>
+</activity>
+```
+**以上配置中的`XXXXXXXXX`换成app_id.**
+
+- oauth
+```java
+SocialSDK.init("wechat_app_id", "wechat_app_secret", "weibo_app_id", "qq_app_id");
+SocialSDK.oauth(context);
+```
+
+- 授权结果回调   
+SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。（其实我是不想写startActivityForResult ...）   
+在调用`SocialSDK.oauth()`接口`Activity`的`onCreate()`方法内添加   
+```java
+BusProvider.getInstance().register(this);
+```
+在该`Activity`的`onDestroy()`方法添加   
+```java
+@Override
+protected void onDestroy() {
+    BusProvider.getInstance().unregister(this);
+    super.onDestroy();
+}
+```
+添加回调接口   
+```java
+@Subscribe
+public void onOauthResult(BusEvent event) {
+    switch (event.getType()) {
+        case BusEvent.TYPE_GET_TOKEN:
+            SocialToken token = event.getToken();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
+            break;
+        case BusEvent.TYPE_GET_USER:
+            SocialUser user = event.getUser();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
+            break;
+        case BusEvent.TYPE_FAILURE:
+            Exception e = event.getException();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
+            break;
+        case BusEvent.TYPE_CANCEL:
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
+            break;
+    }
+}
+```
+
+- revoke
+```java
+SocialSDK.revoke(context);
 ```
 
 ## FAQ

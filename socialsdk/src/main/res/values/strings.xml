@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">socialsdk</string>
+    <string name="social_oauth_weibo">微博登陆</string>
+    <string name="social_oauth_weixin">微信登陆</string>
+    <string name="social_oauth_qq">QQ登陆</string>
 </resources>

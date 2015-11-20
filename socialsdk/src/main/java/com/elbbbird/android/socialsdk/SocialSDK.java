@@ -6,11 +6,12 @@ import android.text.TextUtils;
 
 import com.elbbbird.android.socialsdk.model.SocialInfo;
 import com.elbbbird.android.socialsdk.sso.ISocialOauthCallback;
+import com.elbbbird.android.socialsdk.sso.SocialInfoKeeper;
 import com.elbbbird.android.socialsdk.sso.SocialSSOProxy;
 
 /**
  * 社交SDK
- * <p>
+ * <p/>
  * Created by zhanghailong-ms on 2015/11/13.
  */
 public class SocialSDK {
@@ -112,8 +113,62 @@ public class SocialSDK {
         info.setQqScope(scope);
     }
 
-    public static void oauth() {
+    /**
+     * 初始化微信，微博，QQ三个平台信息
+     *
+     * @param weChatId     微信id
+     * @param weChatSecret 微信 secret
+     * @param weiboKey     微博 id
+     * @param qqId         QQ id
+     */
+    public static void init(String weChatId, String weChatSecret, String weiboKey, String qqId) {
+        info.setWechatAppId(weChatId);
+        info.setWeChatAppSecret(weChatSecret);
+        info.setWeiboAppKey(weiboKey);
+        info.setQqAppId(qqId);
+    }
 
+    /**
+     * 初始化微信，微博，QQ三个平台信息
+     *
+     * @param weChatId         微信id
+     * @param weChatSecret     微信 secret
+     * @param weiboKey         微博 id
+     * @param weiboRedirectUrl 微博回调地址
+     * @param qqId             QQ id
+     */
+    public static void init(String weChatId, String weChatSecret, String weiboKey, String weiboRedirectUrl, String qqId) {
+        info.setWechatAppId(weChatId);
+        info.setWeChatAppSecret(weChatSecret);
+        info.setWeiboAppKey(weiboKey);
+        info.setWeiboRedirectrUrl(weiboRedirectUrl);
+        info.setQqAppId(qqId);
+    }
+
+    /**
+     * 一键登录，显示SDK默认登录界面
+     *
+     * @param context context
+     */
+    public static void oauth(Context context) {
+        if (!TextUtils.isEmpty(info.getWechatAppId())
+                && !TextUtils.isEmpty(info.getWeChatAppSecret())
+                && !TextUtils.isEmpty(info.getWeiboAppKey())
+                && !TextUtils.isEmpty(info.getQqAppId())) {
+            SocialInfoKeeper.writeSocialInfo(context, info);
+            SocialSSOProxy.login(context, info);
+        }
+    }
+
+    /**
+     * 一键解除授权
+     *
+     * @param context context
+     */
+    public static void revoke(Context context) {
+        revokeWeibo(context);
+        revokeQQ(context);
+        revokeWeChat(context);
     }
 
     /**
@@ -123,8 +178,10 @@ public class SocialSDK {
      * @param callback 回调接口
      */
     public static void oauthWeChat(Context context, ISocialOauthCallback callback) {
-        if (!TextUtils.isEmpty(info.getWechatAppId()) && !TextUtils.isEmpty(info.getWeChatAppSecret()))
+        if (!TextUtils.isEmpty(info.getWechatAppId()) && !TextUtils.isEmpty(info.getWeChatAppSecret())) {
+            SocialInfoKeeper.writeSocialInfo(context, info);
             SocialSSOProxy.loginWeChat(context, info, callback);
+        }
     }
 
     /**
@@ -133,6 +190,7 @@ public class SocialSDK {
      * @param context context
      */
     public static void revokeWeChat(Context context) {
+
         SocialSSOProxy.logoutWeChat(context);
     }
 
@@ -143,8 +201,10 @@ public class SocialSDK {
      * @param callback 回调接口
      */
     public static void oauthWeibo(Context context, ISocialOauthCallback callback) {
-        if (!TextUtils.isEmpty(info.getWeiboAppKey()))
+        if (!TextUtils.isEmpty(info.getWeiboAppKey())) {
+            SocialInfoKeeper.writeSocialInfo(context, info);
             SocialSSOProxy.loginWeibo(context, info, callback);
+        }
     }
 
     /**
@@ -153,6 +213,7 @@ public class SocialSDK {
      * @param context context
      */
     public static void revokeWeibo(Context context) {
+        info = SocialInfoKeeper.readSocialInfo(context);
         SocialSSOProxy.logoutWeibo(context, info);
     }
 
@@ -175,8 +236,10 @@ public class SocialSDK {
      * @param callback 回调接口
      */
     public static void oauthQQ(Context context, ISocialOauthCallback callback) {
-        if (!TextUtils.isEmpty(info.getQqAppId()))
+        if (!TextUtils.isEmpty(info.getQqAppId())) {
+            SocialInfoKeeper.writeSocialInfo(context, info);
             SocialSSOProxy.loginQQ(context, info, callback);
+        }
     }
 
     /**
@@ -185,7 +248,8 @@ public class SocialSDK {
      * @param context context
      */
     public static void revokeQQ(Context context) {
-        SocialSSOProxy.logoutQQ(context);
+        info = SocialInfoKeeper.readSocialInfo(context);
+        SocialSSOProxy.logoutQQ(context, info);
     }
 
     /**

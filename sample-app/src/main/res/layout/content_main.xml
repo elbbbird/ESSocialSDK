@@ -63,4 +63,21 @@
             android:layout_height="wrap_content"
             android:text="登出QQ" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_login_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一键登录" />
+
+        <Button
+            android:id="@+id/btn_logout_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一键登出" />
+    </LinearLayout>
 </LinearLayout>
