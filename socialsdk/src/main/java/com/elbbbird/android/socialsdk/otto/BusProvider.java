@@ -4,7 +4,6 @@ import com.squareup.otto.Bus;
 
 /**
  * Otto Bus Provider
- * <p/>
  * Created by zhanghailong-ms on 2015/11/20.
  */
 public class BusProvider {

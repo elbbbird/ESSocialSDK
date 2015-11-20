@@ -18,7 +18,6 @@ import com.tencent.connect.common.Constants;
 
 /**
  * 社交授权activity
- * <p/>
  * Created by zhanghailong-ms on 2015/11/20.
  */
 public class SocialOauthActivity extends Activity {

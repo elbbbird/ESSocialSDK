@@ -7,7 +7,6 @@ import com.elbbbird.android.socialsdk.model.SocialInfo;
 
 /**
  * 社交平台信息持久化
- * <p/>
  * Created by zhanghailong-ms on 2015/11/20.
  */
 public class SocialInfoKeeper {

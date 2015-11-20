@@ -11,7 +11,6 @@ import com.elbbbird.android.socialsdk.sso.SocialSSOProxy;
 
 /**
  * 社交SDK
- * <p/>
  * Created by zhanghailong-ms on 2015/11/13.
  */
 public class SocialSDK {

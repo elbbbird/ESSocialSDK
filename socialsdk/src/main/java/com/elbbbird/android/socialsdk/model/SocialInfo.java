@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 社交平台信息
- * <p/>
  * Created by zhanghailong-ms on 2015/11/13.
  */
 public class SocialInfo implements Serializable {

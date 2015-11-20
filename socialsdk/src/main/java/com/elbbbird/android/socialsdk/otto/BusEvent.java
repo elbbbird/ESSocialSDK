@@ -5,7 +5,6 @@ import com.elbbbird.android.socialsdk.model.SocialUser;
 
 /**
  * Otto Bus Event
- * <p/>
  * Created by zhanghailong-ms on 2015/11/20.
  */
 public class BusEvent {
