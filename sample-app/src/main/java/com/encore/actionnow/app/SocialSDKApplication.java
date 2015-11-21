@@ -2,8 +2,6 @@ package com.encore.actionnow.app;
 
 import android.app.Application;
 
-import im.fir.sdk.FIR;
-
 /**
  * Created by zhanghailong-ms on 2015/11/13.
  * <p>
@@ -22,6 +20,5 @@ public class SocialSDKApplication extends Application {
      * 初始化BugHD，实时监控APP的崩溃
      */
     private void initBugHD() {
-        FIR.init(this);
     }
 }
