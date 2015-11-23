@@ -13,9 +13,8 @@ import android.widget.Button;
 import com.elbbbird.android.socialsdk.SocialSDK;
 import com.elbbbird.android.socialsdk.model.SocialToken;
 import com.elbbbird.android.socialsdk.model.SocialUser;
-import com.elbbbird.android.socialsdk.otto.BusEvent;
+import com.elbbbird.android.socialsdk.otto.SSOBusEvent;
 import com.elbbbird.android.socialsdk.otto.BusProvider;
-import com.elbbbird.android.socialsdk.sso.ISocialOauthCallback;
 import com.squareup.otto.Subscribe;
 import com.tencent.connect.common.Constants;
 
@@ -31,6 +30,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
     private Button btnLogoutQQ;
     private Button btnLoginAll;
     private Button btnLogoutAll;
+    private Button btnShareAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,8 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
         btnLoginAll.setOnClickListener(this);
         btnLogoutAll = (Button) findViewById(R.id.btn_logout_all);
         btnLogoutAll.setOnClickListener(this);
+        btnShareAll = (Button) findViewById(R.id.btn_share_all);
+        btnShareAll.setOnClickListener(this);
 
         BusProvider.getInstance().register(this);
 
@@ -70,35 +72,13 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    ISocialOauthCallback callback = new ISocialOauthCallback() {
-        @Override
-        public void onGetTokenSuccess(SocialToken token) {
-            Log.i(TAG, "onGetTokenSuccess" + token.toString());
-        }
-
-        @Override
-        public void onGetUserSuccess(SocialUser user) {
-            Log.i(TAG, "onGetUserSuccess# " + user.toString());
-        }
-
-        @Override
-        public void onFailure(Exception e) {
-            Log.i(TAG, "onFailure# " + e.toString());
-        }
-
-        @Override
-        public void onCancel() {
-            Log.i(TAG, "onCancel#");
-        }
-    };
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login_weibo:
                 SocialSDK.setDebugMode(true);
                 SocialSDK.initWeibo("1633462674");
-                SocialSDK.oauthWeibo(SocialActivity.this, callback);
+                SocialSDK.oauthWeibo(SocialActivity.this);
                 break;
             case R.id.btn_logout_weibo:
                 SocialSDK.revokeWeibo(SocialActivity.this);
@@ -106,7 +86,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_login_wechat:
                 SocialSDK.setDebugMode(true);
                 SocialSDK.initWeChat("wx3ecc7ffe590fd845", "1b3f07fa99d82232d360c359f6504980");
-                SocialSDK.oauthWeChat(SocialActivity.this, callback);
+                SocialSDK.oauthWeChat(SocialActivity.this);
                 break;
             case R.id.btn_logout_wechat:
                 SocialSDK.revokeWeChat(SocialActivity.this);
@@ -114,7 +94,7 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_login_qq:
                 SocialSDK.setDebugMode(true);
                 SocialSDK.initQQ("1104664609");
-                SocialSDK.oauthQQ(SocialActivity.this, callback);
+                SocialSDK.oauthQQ(SocialActivity.this);
                 break;
             case R.id.btn_logout_qq:
                 SocialSDK.revokeQQ(SocialActivity.this);
@@ -126,6 +106,9 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btn_logout_all:
                 SocialSDK.revoke(SocialActivity.this);
+                break;
+            case R.id.btn_share_all:
+
                 break;
         }
     }
@@ -140,21 +123,21 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Subscribe
-    public void onOauthResult(BusEvent event) {
+    public void onOauthResult(SSOBusEvent event) {
         switch (event.getType()) {
-            case BusEvent.TYPE_GET_TOKEN:
+            case SSOBusEvent.TYPE_GET_TOKEN:
                 SocialToken token = event.getToken();
                 Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
                 break;
-            case BusEvent.TYPE_GET_USER:
+            case SSOBusEvent.TYPE_GET_USER:
                 SocialUser user = event.getUser();
                 Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
                 break;
-            case BusEvent.TYPE_FAILURE:
+            case SSOBusEvent.TYPE_FAILURE:
                 Exception e = event.getException();
                 Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
                 break;
-            case BusEvent.TYPE_CANCEL:
+            case SSOBusEvent.TYPE_CANCEL:
                 Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
                 break;
         }

@@ -17,33 +17,44 @@ SocialSDK.setDebugMode(true); //默认false
 
 ### 平台SSO授权功能
 
-#### `ISocialOauthCallback`授权回调接口
+#### ~~`ISocialOauthCallback`授权回调接口~~
+
+#### 授权结果回调   
+SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。（其实我是不想写startActivityForResult ...）   
+在调用`SocialSDK.oauth()`接口`Activity`的`onCreate()`方法内添加   
 ```java
-ISocialOauthCallback callback = new ISocialOauthCallback() {
-    @Override
-    public void onGetTokenSuccess(SocialToken token) {
-        //获取token成功
-        Log.i(TAG, "onGetTokenSuccess" + token.toString());
+BusProvider.getInstance().register(this);
+```
+在该`Activity`的`onDestroy()`方法添加   
+```java
+@Override
+protected void onDestroy() {
+    BusProvider.getInstance().unregister(this);
+    super.onDestroy();
+}
+```
+添加回调接口   
+```java
+@Subscribe
+public void onOauthResult(BusEvent event) {
+    switch (event.getType()) {
+        case BusEvent.TYPE_GET_TOKEN:
+            SocialToken token = event.getToken();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
+            break;
+        case BusEvent.TYPE_GET_USER:
+            SocialUser user = event.getUser();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
+            break;
+        case BusEvent.TYPE_FAILURE:
+            Exception e = event.getException();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
+            break;
+        case BusEvent.TYPE_CANCEL:
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
+            break;
     }
-
-    @Override
-    public void onGetUserSuccess(SocialUser user) {
-        //获取用户信息成功
-        Log.i(TAG, "onGetUserSuccess# " + user.toString());
-    }
-
-    @Override
-    public void onFailure(Exception e) {
-        //失败
-        Log.i(TAG, "onFailure# " + e.toString());
-    }
-
-    @Override
-    public void onCancel() {
-        //取消
-        Log.i(TAG, "onCancel#");
-    }
-};
+}
 ```
 
 #### 微博授权
@@ -53,7 +64,7 @@ SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置�
 - oauth
 ```java
 SocialSDK.initWeibo("app_key");
-SocialSDK.oauthWeibo(context, callback);
+SocialSDK.oauthWeibo(context);
 ```
 - onActivityResult
 ```java
@@ -91,7 +102,7 @@ public class WXEntryActivity extends WXCallbackActivity {
 - oauth
 ```java
 SocialSDK.initWeChat("app_id", "app_secret");
-SocialSDK.oauthWeChat(context, callback);
+SocialSDK.oauthWeChat(context);
 ```
 
 - revoke
@@ -121,7 +132,7 @@ SocialSDK.revokeWeChat(context);
 - oauth
 ```java
 SocialSDK.initQQ(app_id);
-SocialSDK.oauthQQ(context, callback);
+SocialSDK.oauthQQ(context);
 ```
 
 - onActivityResult
@@ -135,6 +146,7 @@ if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_A
 ```java
 SocialSDK.revokeQQ(context);
 ```
+
 #### SDK默认授权界面，展示全平台授权接口
 - 配置微博后台回调地址   
 SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
@@ -179,44 +191,6 @@ public class WXEntryActivity extends WXCallbackActivity {
 ```java
 SocialSDK.init("wechat_app_id", "wechat_app_secret", "weibo_app_id", "qq_app_id");
 SocialSDK.oauth(context);
-```
-
-- 授权结果回调   
-SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。（其实我是不想写startActivityForResult ...）   
-在调用`SocialSDK.oauth()`接口`Activity`的`onCreate()`方法内添加   
-```java
-BusProvider.getInstance().register(this);
-```
-在该`Activity`的`onDestroy()`方法添加   
-```java
-@Override
-protected void onDestroy() {
-    BusProvider.getInstance().unregister(this);
-    super.onDestroy();
-}
-```
-添加回调接口   
-```java
-@Subscribe
-public void onOauthResult(BusEvent event) {
-    switch (event.getType()) {
-        case BusEvent.TYPE_GET_TOKEN:
-            SocialToken token = event.getToken();
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
-            break;
-        case BusEvent.TYPE_GET_USER:
-            SocialUser user = event.getUser();
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
-            break;
-        case BusEvent.TYPE_FAILURE:
-            Exception e = event.getException();
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
-            break;
-        case BusEvent.TYPE_CANCEL:
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
-            break;
-    }
-}
 ```
 
 - revoke

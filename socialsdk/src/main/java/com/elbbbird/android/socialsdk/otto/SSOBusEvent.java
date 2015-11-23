@@ -7,7 +7,7 @@ import com.elbbbird.android.socialsdk.model.SocialUser;
  * Otto Bus Event
  * Created by zhanghailong-ms on 2015/11/20.
  */
-public class BusEvent {
+public class SSOBusEvent {
 
     public static final int TYPE_GET_TOKEN = 0;
     public static final int TYPE_GET_USER = 1;
@@ -19,21 +19,21 @@ public class BusEvent {
     private SocialToken token;
     private Exception exception;
 
-    public BusEvent(int type) {
+    public SSOBusEvent(int type) {
         this.type = type;
     }
 
-    public BusEvent(int type, SocialUser user) {
+    public SSOBusEvent(int type, SocialUser user) {
         this.type = type;
         this.user = user;
     }
 
-    public BusEvent(int type, SocialToken token) {
+    public SSOBusEvent(int type, SocialToken token) {
         this.type = type;
         this.token = token;
     }
 
-    public BusEvent(int type, Exception exception) {
+    public SSOBusEvent(int type, Exception exception) {
         this.type = type;
         this.exception = exception;
     }

@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.elbbbird.android.socialsdk.model.SocialInfo;
-import com.elbbbird.android.socialsdk.sso.ISocialOauthCallback;
+import com.elbbbird.android.socialsdk.model.SocialShareScene;
+import com.elbbbird.android.socialsdk.share.SocialShareProxy;
 import com.elbbbird.android.socialsdk.sso.SocialInfoKeeper;
 import com.elbbbird.android.socialsdk.sso.SocialSSOProxy;
 
@@ -173,13 +174,12 @@ public class SocialSDK {
     /**
      * 授权微信
      *
-     * @param context  context
-     * @param callback 回调接口
+     * @param context context
      */
-    public static void oauthWeChat(Context context, ISocialOauthCallback callback) {
+    public static void oauthWeChat(Context context) {
         if (!TextUtils.isEmpty(info.getWechatAppId()) && !TextUtils.isEmpty(info.getWeChatAppSecret())) {
             SocialInfoKeeper.writeSocialInfo(context, info);
-            SocialSSOProxy.loginWeChat(context, info, callback);
+            SocialSSOProxy.loginWeChat(context, info);
         }
     }
 
@@ -196,13 +196,12 @@ public class SocialSDK {
     /**
      * 微博授权
      *
-     * @param context  context
-     * @param callback 回调接口
+     * @param context context
      */
-    public static void oauthWeibo(Context context, ISocialOauthCallback callback) {
+    public static void oauthWeibo(Context context) {
         if (!TextUtils.isEmpty(info.getWeiboAppKey())) {
             SocialInfoKeeper.writeSocialInfo(context, info);
-            SocialSSOProxy.loginWeibo(context, info, callback);
+            SocialSSOProxy.loginWeibo(context, info);
         }
     }
 
@@ -231,13 +230,12 @@ public class SocialSDK {
     /**
      * QQ授权
      *
-     * @param context  context
-     * @param callback 回调接口
+     * @param context context
      */
-    public static void oauthQQ(Context context, ISocialOauthCallback callback) {
+    public static void oauthQQ(Context context) {
         if (!TextUtils.isEmpty(info.getQqAppId())) {
             SocialInfoKeeper.writeSocialInfo(context, info);
-            SocialSSOProxy.loginQQ(context, info, callback);
+            SocialSSOProxy.loginQQ(context, info);
         }
     }
 
@@ -262,20 +260,64 @@ public class SocialSDK {
         SocialSSOProxy.loginQQCallback(requestCode, resultCode, data);
     }
 
-    public static void shareTo() {
-
+    /**
+     * 一键分享，默认UI
+     *
+     * @param context context
+     * @param scene   社会化分享数据
+     */
+    public static void shareTo(Context context, SocialShareScene scene) {
+        SocialShareProxy.share(context, scene);
     }
 
-    public static void shareToWeChat() {
-
+    /**
+     * 分享到微信
+     *
+     * @param context context
+     * @param scene   社会化分享数据
+     */
+    public static void shareToWeChat(Context context, SocialShareScene scene) {
+        SocialShareProxy.shareToWeChat(context, scene);
     }
 
-    public static void shareToWeibo() {
-
+    /**
+     * 分享到微信朋友圈
+     *
+     * @param context context
+     * @param scene   社会化分享数据
+     */
+    public static void shareToWeChatTimeline(Context context, SocialShareScene scene) {
+        SocialShareProxy.shareToWeChatTimeline(context, scene);
     }
 
-    public static void shareToQQ() {
+    /**
+     * 分享到微博
+     *
+     * @param context context
+     * @param scene   社会化分享数据
+     */
+    public static void shareToWeibo(Context context, SocialShareScene scene) {
+        SocialShareProxy.shareToWeibo(context, scene);
+    }
 
+    /**
+     * 分享到QQ
+     *
+     * @param context context
+     * @param scene   社会化分享数据
+     */
+    public static void shareToQQ(Context context, SocialShareScene scene) {
+        SocialShareProxy.shareToQQ(context, scene);
+    }
+
+    /**
+     * 分享到QQ空间
+     *
+     * @param context context
+     * @param scene   社会化分享数据
+     */
+    public static void shareToQZone(Context context, SocialShareScene scene) {
+        SocialShareProxy.shareToQZone(context, scene);
     }
 
 }
