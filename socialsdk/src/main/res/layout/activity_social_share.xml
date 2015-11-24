@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/social_share_space"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_gravity="bottom"
+        android:background="#383a49"
+        android:minHeight="160dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/social_share_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/social_share_to"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:id="@+id/social_share_wechat"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:src="@drawable/icon_wechat" />
+
+            <ImageView
+                android:id="@+id/social_share_wechat_timeline"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:src="@drawable/icon_wechat_timeline" />
+
+            <ImageView
+                android:id="@+id/social_share_weibo"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:src="@drawable/icon_weibo" />
+
+            <ImageView
+                android:id="@+id/social_share_qzone"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:src="@drawable/icon_qzone" />
+
+            <ImageView
+                android:id="@+id/social_share_qq"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:src="@drawable/icon_qq" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

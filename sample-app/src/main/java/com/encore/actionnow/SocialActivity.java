@@ -17,6 +17,7 @@ import com.elbbbird.android.socialsdk.model.SocialUser;
 import com.elbbbird.android.socialsdk.otto.SSOBusEvent;
 import com.elbbbird.android.socialsdk.otto.BusProvider;
 import com.elbbbird.android.socialsdk.otto.ShareBusEvent;
+import com.elbbbird.android.socialsdk.share.SocialShareActivity;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
@@ -132,8 +133,9 @@ public class SocialActivity extends AppCompatActivity implements View.OnClickLis
                 SocialSDK.revoke(SocialActivity.this);
                 break;
             case R.id.btn_share_all:
-                SocialSDK.setDebugMode(true);
-                SocialSDK.shareToWeibo(SocialActivity.this, "1633462674", scene);
+                Intent intent = new Intent();
+                intent.setClass(SocialActivity.this, SocialShareActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_share_qq:
                 SocialSDK.setDebugMode(true);

@@ -46,7 +46,7 @@
                 android:id="@+id/login_dialog_weixin"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/icon_weixin" />
+                android:src="@drawable/icon_wechat" />
 
             <TextView
                 android:id="@+id/login_dialog_tv_weixin"
