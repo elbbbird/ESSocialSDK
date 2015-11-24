@@ -4,20 +4,6 @@
 微信好友、微信朋友圈、微博、QQ好友、QQ空间分享
 
 ## Gradle
-**手贱不小心从jcenter仓库中把源删除了，当前需要在项目根目录`build.gradle`文件添加**   
-**jcenter源恢复之后会删除当前说明**
-```groovy
-allprojects {
-    repositories {
-        jcenter()
-
-        maven {
-            url "http://dl.bintray.com/elbbbirdstudio/sdks"
-        }
-
-    }
-}
-```
 
 ```groovy
 compile 'com.elbbbird.android:socialsdk:0.1.0@aar'
