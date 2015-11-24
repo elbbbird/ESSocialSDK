@@ -2,14 +2,13 @@ package com.elbbbird.android.socialsdk.sso.wechat;
 
 import android.content.Context;
 
+import com.elbbbird.android.socialsdk.WeChat;
 import com.elbbbird.android.socialsdk.model.SocialInfo;
 import com.elbbbird.android.socialsdk.model.SocialToken;
 import com.elbbbird.android.socialsdk.model.SocialUser;
 import com.elbbbird.android.socialsdk.sso.SocialSSOProxy;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,28 +27,14 @@ import java.net.URL;
  */
 public class WeChatSSOProxy {
 
-    private static IWXAPI api;
     private static IWXCallback callback;
-
-    public static IWXAPI getIWXAPIInstance(Context context, String appId) {
-        if (null == api) {
-            api = WXAPIFactory.createWXAPI(context, appId, true);
-            api.registerApp(appId);
-        }
-
-        return api;
-    }
-
-    public static IWXAPI getIWXAPIInstance() {
-        return api;
-    }
 
     public static void login(Context context, IWXCallback callback, SocialInfo info) {
         if (!SocialSSOProxy.isTokenValid(context)) {
             WeChatSSOProxy.callback = callback;
             SendAuth.Req req = new SendAuth.Req();
             req.scope = info.getWeChatScope();
-            getIWXAPIInstance(context, info.getWechatAppId()).sendReq(req);
+            WeChat.getIWXAPIInstance(context, info.getWechatAppId()).sendReq(req);
         }
     }
 

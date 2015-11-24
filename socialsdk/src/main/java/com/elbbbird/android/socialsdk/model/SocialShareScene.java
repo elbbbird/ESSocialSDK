@@ -15,6 +15,7 @@ public class SocialShareScene {
 
     private int id;
     private int type;
+    private String appName;
     private String title;
     private String desc;
     private String thumbnail;
@@ -27,13 +28,22 @@ public class SocialShareScene {
      * @param thumbnail 缩略图网址
      * @param url       WEB网址
      */
-    public SocialShareScene(int id, int type, String title, String desc, String thumbnail, String url) {
+    public SocialShareScene(int id, String appName, int type, String title, String desc, String thumbnail, String url) {
         this.id = id;
+        this.appName = appName;
         this.type = type;
         this.title = title;
         this.desc = desc;
         this.thumbnail = thumbnail;
         this.url = url;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
     public int getId() {

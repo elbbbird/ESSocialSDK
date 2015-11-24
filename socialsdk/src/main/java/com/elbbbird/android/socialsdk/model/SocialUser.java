@@ -7,7 +7,7 @@ package com.elbbbird.android.socialsdk.model;
  */
 public class SocialUser {
 
-    public static final int TYPE_UNKNOWN = 0;
+    public static final int TYPE_DEFAULT = 0;
     public static final int TYPE_WEIBO = 1;
     public static final int TYPE_WECHAT = 2;
     public static final int TYPE_QQ = 3;

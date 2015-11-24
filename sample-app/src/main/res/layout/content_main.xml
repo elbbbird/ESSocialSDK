@@ -86,6 +86,42 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/btn_share_weibo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享微博" />
+
+        <Button
+            android:id="@+id/btn_share_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享微信" />
+
+        <Button
+            android:id="@+id/btn_share_wechat_timeline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享朋友圈" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_share_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享QQ" />
+
+        <Button
+            android:id="@+id/btn_share_qzone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享QQ空间" />
+
+        <Button
             android:id="@+id/btn_share_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

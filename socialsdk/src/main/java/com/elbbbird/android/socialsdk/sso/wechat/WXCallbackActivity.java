@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.elbbbird.android.socialsdk.WeChat;
+import com.elbbbird.android.socialsdk.share.wechat.WeChatShareProxy;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -13,7 +15,6 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 /**
  * 微信授权，分享回调activity
- * <p>
  * Created by zhanghailong-ms on 2015/7/11.
  */
 
@@ -27,7 +28,7 @@ public class WXCallbackActivity extends Activity implements IWXAPIEventHandler {
     }
 
     private void handleIntent(Intent intent) {
-        IWXAPI api = WeChatSSOProxy.getIWXAPIInstance();
+        IWXAPI api = WeChat.getIWXAPIInstance();
         if (null != api)
             api.handleIntent(intent, this);
     }
@@ -37,7 +38,7 @@ public class WXCallbackActivity extends Activity implements IWXAPIEventHandler {
         super.onNewIntent(intent);
 
         setIntent(intent);
-        IWXAPI api = WeChatSSOProxy.getIWXAPIInstance();
+        IWXAPI api = WeChat.getIWXAPIInstance();
         if (null != api)
             api.handleIntent(intent, this);
     }
@@ -50,10 +51,8 @@ public class WXCallbackActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp resp) {
         if (resp instanceof SendAuth.Resp)
             WeChatSSOProxy.authComplete((SendAuth.Resp) resp);
-        else if (resp instanceof SendMessageToWX.Resp) {
-            //TODO wechat share
-//            WeixinShareAgent.shareComplete((SendMessageToWX.Resp) resp);
-        }
+        else if (resp instanceof SendMessageToWX.Resp)
+            WeChatShareProxy.shareComplete((SendMessageToWX.Resp) resp);
 
         finish();
     }
