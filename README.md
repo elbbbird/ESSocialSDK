@@ -6,7 +6,7 @@
 ## Gradle
 
 ```groovy
-compile 'com.elbbbird.android:socialsdk:0.1.0@aar'
+compile 'com.elbbbird.android:socialsdk:0.2.0@aar'
 ```
 
 ## 使用指南
