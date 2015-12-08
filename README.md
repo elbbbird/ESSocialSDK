@@ -9,18 +9,14 @@
 compile 'com.elbbbird.android:socialsdk:0.2.0@aar'
 ```
 
-## 使用指南
-
-### Debug模式
+## Debug模式
 ```java
 SocialSDK.setDebugMode(true); //默认false
 ```
 
-### 平台SSO授权功能
+## 社交平台SSO授权功能
 
-#### ~~`ISocialOauthCallback`授权回调接口~~
-
-#### 授权结果回调   
+### 授权结果回调   
 SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。（其实我是不想写startActivityForResult ...）   
 在调用`SocialSDK.oauth()`接口`Activity`的`onCreate()`方法内添加   
 ```java
@@ -58,7 +54,7 @@ public void onOauthResult(BusEvent event) {
 }
 ```
 
-#### 微博授权
+### 微博授权
 - 配置微博后台回调地址   
 SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
 如果在`SocialSDK.initWeibo()`方法自定义了回调地址，需要在后台配置为相应地址。
@@ -77,7 +73,7 @@ SocialSDK.oauthWeiboCallback(context, requestCode, resultCode, data);
 SocialSDK.revokeWeibo(context);
 ```
 
-#### 微信授权
+### 微信授权
 
 - WXEntryActivity   
 创建包名：`package_name.wxapi`  
@@ -111,7 +107,7 @@ SocialSDK.oauthWeChat(context);
 SocialSDK.revokeWeChat(context);
 ```
 
-#### QQ授权
+### QQ授权
 - AndroidManifest.xml
 ```xml
 <activity
@@ -148,7 +144,7 @@ if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_A
 SocialSDK.revokeQQ(context);
 ```
 
-#### SDK默认授权界面，展示全平台授权接口
+### SDK默认授权界面，展示全平台授权接口
 - 配置微博后台回调地址   
 SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
 如果在`SocialSDK.init()`方法自定义了回调地址，需要在后台配置为相应地址。
@@ -198,6 +194,11 @@ SocialSDK.oauth(context);
 ```java
 SocialSDK.revoke(context);
 ```
+
+## 社交平台分享功能
+
+### 分享结果回调
+
 
 ## FAQ
 
