@@ -15,12 +15,21 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-#BugHD
+
 -dontwarn org.apache.http.**
-#-keep class org.apache.http.** { public *;}
-#-keep interface org.apache.http.** { public *;}
--dontwarn im.fir.sdk.**
--keep class im.fir.sdk.** { public *;}
 
 #OkHttp
 -dontwarn okio.**
+
+#Butter Knife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
