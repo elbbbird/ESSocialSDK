@@ -26,7 +26,7 @@ public class SocialOauthActivity extends Activity {
     private ShareButton llQQ;
 
     /**
-     * type=0, 用户选择QQ或者微博登陆
+     * type=0, 用户选择QQ或者微博登录
      * type=1，用户选择微信登录
      */
     private int type = 0;

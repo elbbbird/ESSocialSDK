@@ -166,7 +166,7 @@ public class SocialSSOProxy {
     }
 
     /**
-     * 微博登陆状态回调接口
+     * 微博登录状态回调接口
      *
      * @param context     context
      * @param info        社交信息
