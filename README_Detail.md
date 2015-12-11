@@ -1,16 +1,10 @@
 # ESSocialSDK [![Build Status](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK.svg?branch=master)](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK)
 社交登录授权，分享SDK   
 支持微信、微博、QQ登录授权   
-微信好友、微信朋友圈、微博、QQ好友、QQ空间分享以及系统默认分享   
-
-## 说明
-每单个平台全部提供文档说明，内容较多，易混淆集成过程，所以，这里只提供一键登录，一键分享文档，使用默认UI。   
-如果需要单个平台的详细集成文档，参考[README_Detail.md](https://github.com/ElbbbirdStudio/ESSocialSDK/blob/master/README_Detail.md)。   
-默认UI效果截图：   
-![一键登录](https://raw.githubusercontent.com/ElbbbirdStudio/ESSocialSDK/master/screenshots/oauth_all.png)
-![一键分享](https://raw.githubusercontent.com/ElbbbirdStudio/ESSocialSDK/master/screenshots/share_all.png)
+微信好友、微信朋友圈、微博、QQ好友、QQ空间分享以及系统默认分享
 
 ## Gradle
+
 ```groovy
 compile 'com.elbbbird.android:socialsdk:0.2.0@aar'
 ```
@@ -20,7 +14,7 @@ compile 'com.elbbbird.android:socialsdk:0.2.0@aar'
 SocialSDK.setDebugMode(true); //默认false
 ```
 
-## 全社交平台一键登录授权功能
+## 社交平台SSO授权功能
 
 ### 授权结果回调   
 SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。
@@ -60,7 +54,97 @@ public void onOauthResult(BusEvent event) {
 }
 ```
 
-### 一键登录
+### 微博授权
+- 配置微博后台回调地址   
+SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
+如果在`SocialSDK.initWeibo()`方法自定义了回调地址，需要在后台配置为相应地址。
+- oauth
+```java
+SocialSDK.initWeibo("app_key");
+SocialSDK.oauthWeibo(context);
+```
+- onActivityResult
+```java
+SocialSDK.oauthWeiboCallback(context, requestCode, resultCode, data);
+```
+
+- revoke
+```java
+SocialSDK.revokeWeibo(context);
+```
+
+### 微信授权
+
+- WXEntryActivity   
+创建包名：`package_name.wxapi`  
+在该包名下创建类`WXEntryActivity`继承自`WXCallbackActivity`   
+
+```java
+package com.encore.actionnow.wxapi;
+public class WXEntryActivity extends WXCallbackActivity {
+
+}
+```
+
+- AndroidManifest.xml
+```xml
+<activity
+    android:name=".wxapi.WXEntryActivity"
+    android:configChanges="keyboardHidden|orientation|screenSize"
+    android:exported="true"
+    android:screenOrientation="portrait"
+    android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+```
+
+- oauth
+```java
+SocialSDK.initWeChat("app_id", "app_secret");
+SocialSDK.oauthWeChat(context);
+```
+
+- revoke
+```java
+SocialSDK.revokeWeChat(context);
+```
+
+### QQ授权
+- AndroidManifest.xml
+```xml
+<activity
+    android:name="com.tencent.tauth.AuthActivity"
+    android:launchMode="singleTask"
+    android:noHistory="true">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data android:scheme="tencentXXXXXXXXX" />
+    </intent-filter>
+</activity>
+```
+**以上配置中的`XXXXXXXXX`换成app_id.**
+
+- oauth
+```java
+SocialSDK.initQQ(app_id);
+SocialSDK.oauthQQ(context);
+```
+
+- onActivityResult
+```java
+if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
+    SocialSDK.oauthQQCallback(requestCode, resultCode, data);
+}
+```
+
+- revoke
+```java
+SocialSDK.revokeQQ(context);
+```
+
+### SDK默认授权界面，展示全平台授权接口
 - 配置微博后台回调地址   
 SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
 如果在`SocialSDK.init()`方法自定义了回调地址，需要在后台配置为相应地址。
@@ -111,7 +195,7 @@ SocialSDK.oauth(context);
 SocialSDK.revoke(context);
 ```
 
-## 全社交平台一键分享功能
+## 社交平台分享功能
 
 ### 分享结果回调
 
