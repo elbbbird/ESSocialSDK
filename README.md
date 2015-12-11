@@ -17,7 +17,7 @@ SocialSDK.setDebugMode(true); //默认false
 ## 社交平台SSO授权功能
 
 ### 授权结果回调   
-SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。（其实我是不想写startActivityForResult ...）   
+SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。
 在调用`SocialSDK.oauth()`接口`Activity`的`onCreate()`方法内添加   
 ```java
 BusProvider.getInstance().register(this);
@@ -199,6 +199,23 @@ SocialSDK.revoke(context);
 
 ### 分享结果回调
 
+```java
+@Subscribe
+public void onShareResult(ShareBusEvent event) {
+    switch (event.getType()) {
+        case ShareBusEvent.TYPE_SUCCESS:
+            Log.i(TAG, "onShareResult#ShareBusEvent.TYPE_SUCCESS " + event.getId());
+            break;
+        case ShareBusEvent.TYPE_FAILURE:
+            Exception e = event.getException();
+            Log.i(TAG, "onShareResult#ShareBusEvent.TYPE_FAILURE " + e.toString());
+            break;
+        case ShareBusEvent.TYPE_CANCEL:
+            Log.i(TAG, "onShareResult#ShareBusEvent.TYPE_CANCEL");
+            break;
+    }
+}
+```
 
 ## FAQ
 

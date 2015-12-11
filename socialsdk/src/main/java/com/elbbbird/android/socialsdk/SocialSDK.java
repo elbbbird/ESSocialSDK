@@ -117,6 +117,19 @@ public class SocialSDK {
     /**
      * 初始化微信，微博，QQ三个平台信息
      *
+     * @param weChatId 微信id
+     * @param weiboKey 微博 id
+     * @param qqId     QQ id
+     */
+    public static void init(String weChatId, String weiboKey, String qqId) {
+        info.setWechatAppId(weChatId);
+        info.setWeiboAppKey(weiboKey);
+        info.setQqAppId(qqId);
+    }
+
+    /**
+     * 初始化微信，微博，QQ三个平台信息
+     *
      * @param weChatId     微信id
      * @param weChatSecret 微信 secret
      * @param weiboKey     微博 id
@@ -268,7 +281,7 @@ public class SocialSDK {
      * @param scene   社会化分享数据
      */
     public static void shareTo(Context context, SocialShareScene scene) {
-        SocialShareProxy.share(context, scene);
+        SocialShareProxy.share(context, info, scene);
     }
 
     /**
@@ -337,4 +350,5 @@ public class SocialSDK {
     public static void shareToWeiboCallback(Intent intent, IWeiboHandler.Response response) {
         SocialShareProxy.shareToWeiboCallback(intent, response);
     }
+
 }

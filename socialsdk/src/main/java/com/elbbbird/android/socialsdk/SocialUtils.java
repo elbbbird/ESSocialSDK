@@ -181,6 +181,6 @@ public class SocialUtils {
      */
     public static byte[] getDefaultShareImage(Context context) {
 
-        return bmpToByteArray(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_default), true);
+        return bmpToByteArray(BitmapFactory.decodeResource(context.getResources(), R.drawable.es_icon_default), true);
     }
 }

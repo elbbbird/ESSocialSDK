@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingBottom="30.0dip"
+    android:paddingTop="20.0dip">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/social_oauth"
+        android:textColor="@android:color/black"
+        android:textSize="20.0sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1.0px"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15.0dip"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
+
+
+        <com.elbbbird.android.socialsdk.view.ShareButton
+            android:id="@+id/social_oauth_sb_weibo"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            app:description="@string/social_oauth_weibo"
+            app:icons="@drawable/es_icon_weibo" />
+
+        <com.elbbbird.android.socialsdk.view.ShareButton
+            android:id="@+id/social_oauth_sb_wechat"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            app:description="@string/social_oauth_weixin"
+            app:icons="@drawable/es_icon_wechat" />
+
+        <com.elbbbird.android.socialsdk.view.ShareButton
+            android:id="@+id/social_oauth_sb_qq"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            app:description="@string/social_oauth_qq"
+            app:icons="@drawable/es_icon_qq" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.elbbbird.android.socialsdk.view.OverlayImageView
+        android:id="@+id/view_btn_share_iv"
+        android:layout_width="60.0dip"
+        android:layout_height="60.0dip"
+        android:background="@android:color/transparent"
+        android:padding="5.0dip"
+        android:scaleType="fitCenter"
+        android:src="@drawable/es_icon_default" />
+
+    <TextView
+        android:id="@+id/view_btn_share_tv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@android:color/black"
+        android:textSize="12.0sp" />
+</LinearLayout>

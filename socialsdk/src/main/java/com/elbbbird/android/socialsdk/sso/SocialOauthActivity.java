@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.elbbbird.android.socialsdk.R;
 import com.elbbbird.android.socialsdk.SocialSDK;
 import com.elbbbird.android.socialsdk.model.SocialInfo;
+import com.elbbbird.android.socialsdk.view.ShareButton;
 import com.tencent.connect.common.Constants;
 
 /**
@@ -21,47 +21,48 @@ public class SocialOauthActivity extends Activity {
     private static boolean DEBUG = SocialSDK.isDebugModel();
 
     private SocialInfo info;
-    private LinearLayout llWeibo;
-    private LinearLayout llWeChat;
-    private LinearLayout llQQ;
+    private ShareButton llWeibo;
+    private ShareButton llWeChat;
+    private ShareButton llQQ;
+
+    /**
+     * type=0, 用户选择QQ或者微博登陆
+     * type=1，用户选择微信登录
+     */
+    private int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_social_oauth);
+        setContentView(R.layout.es_activity_social_oauth);
 
         info = (SocialInfo) getIntent().getExtras().getSerializable("info");
 
-        llWeibo = (LinearLayout) findViewById(R.id.social_oauth_ll_weibo);
-        llWeibo.setOnClickListener(weiboClickListener);
-        llWeChat = (LinearLayout) findViewById(R.id.social_oauth_ll_wechat);
-        llWeChat.setOnClickListener(wechatClickListener);
-        llQQ = (LinearLayout) findViewById(R.id.login_dialog_ll_qq);
-        llQQ.setOnClickListener(qqClickListener);
+        llWeibo = (ShareButton) findViewById(R.id.social_oauth_sb_weibo);
+        llWeibo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialSSOProxy.loginWeibo(SocialOauthActivity.this, info);
+            }
+        });
+        llWeChat = (ShareButton) findViewById(R.id.social_oauth_sb_wechat);
+        llWeChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialSSOProxy.loginWeChat(SocialOauthActivity.this, info);
+                type = 1;
+            }
+        });
+        llQQ = (ShareButton) findViewById(R.id.social_oauth_sb_qq);
+        llQQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialSSOProxy.loginQQ(SocialOauthActivity.this, info);
+            }
+        });
 
     }
-
-    View.OnClickListener weiboClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SocialSSOProxy.loginWeibo(SocialOauthActivity.this, info);
-        }
-    };
-
-    View.OnClickListener wechatClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SocialSSOProxy.loginWeChat(SocialOauthActivity.this, info);
-        }
-    };
-
-    View.OnClickListener qqClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SocialSSOProxy.loginQQ(SocialOauthActivity.this, info);
-        }
-    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -71,6 +72,23 @@ public class SocialOauthActivity extends Activity {
             SocialSDK.oauthQQCallback(requestCode, resultCode, data);
         }
 
-        finish();
+        if (type == 0) {
+            finish();
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (type == 1) {
+            finish();
+        }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.es_snack_out);
     }
 }

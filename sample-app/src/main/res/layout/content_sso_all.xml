@@ -10,30 +10,19 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.elbbbird.android.socialsdk.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.encore.actionnow.SsoAllActivity"
+    tools:showIn="@layout/activity_sso_all">
+
 
     <Button
-        android:id="@+id/main_btn_sso"
+        android:id="@+id/sso_all_btn_login_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="单个社交平台授权" />
+        android:text="一键登录" />
 
     <Button
-        android:id="@+id/main_btn_sso_all"
+        android:id="@+id/sso_all_btn_logout_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="全社交平台授权" />
-
-    <Button
-        android:id="@+id/main_btn_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="单个社交平台分享" />
-
-    <Button
-        android:id="@+id/main_btn_share_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="全社交平台分享" />
+        android:text="一键登出" />
 </LinearLayout>

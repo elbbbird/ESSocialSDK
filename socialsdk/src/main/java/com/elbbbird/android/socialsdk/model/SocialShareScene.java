@@ -1,10 +1,12 @@
 package com.elbbbird.android.socialsdk.model;
 
+import java.io.Serializable;
+
 /**
  * 社会化分享数据类
  * Created by zhanghailong-ms on 2015/11/23.
  */
-public class SocialShareScene {
+public class SocialShareScene implements Serializable {
 
     public static final int SHARE_TYPE_DEFAULT = 0;
     public static final int SHARE_TYPE_WEIBO = 1;

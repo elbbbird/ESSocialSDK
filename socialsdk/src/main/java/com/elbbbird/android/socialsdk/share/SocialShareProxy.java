@@ -1,11 +1,13 @@
 package com.elbbbird.android.socialsdk.share;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.elbbbird.android.socialsdk.SocialSDK;
+import com.elbbbird.android.socialsdk.model.SocialInfo;
 import com.elbbbird.android.socialsdk.model.SocialShareScene;
 import com.elbbbird.android.socialsdk.otto.BusProvider;
 import com.elbbbird.android.socialsdk.otto.ShareBusEvent;
@@ -33,8 +35,16 @@ public class SocialShareProxy {
 
     private static SocialShareScene scene;
 
-    public static void share(Context context, SocialShareScene scene) {
+    public static void share(Context context, SocialInfo info, SocialShareScene scene) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("info", info);
+        bundle.putSerializable("scene", scene);
+        intent.putExtras(bundle);
+        intent.setClass(context, SocialShareActivity.class);
+        context.startActivity(intent);
 
+        ((Activity) context).overridePendingTransition(com.elbbbird.android.socialsdk.R.anim.es_snack_in, 0);
     }
 
     private static IWXShareCallback wechatShareCallback = new IWXShareCallback() {

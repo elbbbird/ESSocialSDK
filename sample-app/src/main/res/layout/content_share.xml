@@ -10,30 +10,40 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.elbbbird.android.socialsdk.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.encore.actionnow.ShareActivity"
+    tools:showIn="@layout/activity_share">
+
 
     <Button
-        android:id="@+id/main_btn_sso"
+        android:id="@+id/share_btn_share_weibo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="单个社交平台授权" />
+        android:enabled="false"
+        android:text="分享微博" />
 
     <Button
-        android:id="@+id/main_btn_sso_all"
+        android:id="@+id/share_btn_share_wechat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="全社交平台授权" />
+        android:text="分享微信" />
+
 
     <Button
-        android:id="@+id/main_btn_share"
+        android:id="@+id/share_btn_share_wechat_timeline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="单个社交平台分享" />
+        android:text="分享朋友圈" />
 
     <Button
-        android:id="@+id/main_btn_share_all"
+        android:id="@+id/share_btn_share_qq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="全社交平台分享" />
+        android:text="分享QQ" />
+
+    <Button
+        android:id="@+id/share_btn_share_qzone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分享QQ空间" />
+
 </LinearLayout>

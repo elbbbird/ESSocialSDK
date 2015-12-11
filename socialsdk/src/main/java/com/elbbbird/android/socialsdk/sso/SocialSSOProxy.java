@@ -1,11 +1,13 @@
 package com.elbbbird.android.socialsdk.sso;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.elbbbird.android.socialsdk.R;
 import com.elbbbird.android.socialsdk.SocialSDK;
 import com.elbbbird.android.socialsdk.model.SocialInfo;
 import com.elbbbird.android.socialsdk.model.SocialToken;
@@ -363,5 +365,6 @@ public class SocialSSOProxy {
         intent.putExtras(bundle);
         intent.setClass(context, SocialOauthActivity.class);
         context.startActivity(intent);
+        ((Activity) context).overridePendingTransition(R.anim.es_snack_in, 0);
     }
 }
