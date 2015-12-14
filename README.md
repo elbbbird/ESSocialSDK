@@ -1,4 +1,12 @@
-# ESSocialSDK [![Build Status](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK.svg?branch=master)](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK)
+# ESSocialSDK
+
+[![Build Status](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK.svg?branch=master)](https://travis-ci.org/ElbbbirdStudio/ESSocialSDK)
+[![version](https://img.shields.io/badge/version-0.2.0-brightgreen.svg)]()
+[![LICENSE](https://img.shields.io/badge/license-Apache%202-blue.svg)]()
+[![forks](https://img.shields.io/github/forks/ElbbbirdStudio/ESSocialSDK.svg)]()
+[![stars](https://img.shields.io/github/stars/ElbbbirdStudio/ESSocialSDK.svg)]()
+
+
 社交登录授权，分享SDK   
 支持微信、微博、QQ登录授权   
 微信好友、微信朋友圈、微博、QQ好友、QQ空间分享以及系统默认分享   
