@@ -151,7 +151,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
     @Override
     protected void onResume() {
         super.onResume();
-        if (clickIndex == 0 || clickIndex == 1) {
+        if (clickIndex == 0 || clickIndex == 1 || clickIndex == 5) {
             finish();
         }
     }
