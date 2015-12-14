@@ -34,8 +34,6 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
     private ShareButton sbQZone;
     private ShareButton sbMore;
 
-    private int clickIndex = -1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +53,8 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
         sbWechat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scene.setType(SocialShareScene.SHARE_TYPE_WECHAT);
                 SocialSDK.shareToWeChat(SocialShareActivity.this, info.getWechatAppId(), scene);
-                clickIndex = 0;
             }
         });
         sbWeChatTimeline = (ShareButton) findViewById(R.id.social_share_sb_wechat_timeline);
@@ -64,44 +62,44 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
             @Override
             public void onClick(View v) {
                 SocialSDK.shareToWeChatTimeline(SocialShareActivity.this, info.getWechatAppId(), scene);
-                clickIndex = 1;
+                scene.setType(SocialShareScene.SHARE_TYPE_WECHAT_TIMELINE);
             }
         });
         sbWeibo = (ShareButton) findViewById(R.id.social_share_sb_weibo);
         sbWeibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scene.setType(SocialShareScene.SHARE_TYPE_WEIBO);
                 SocialSDK.shareToWeibo(SocialShareActivity.this, info.getWeiboAppKey(), scene);
-                clickIndex = 2;
             }
         });
         sbQQ = (ShareButton) findViewById(R.id.social_share_sb_qq);
         sbQQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scene.setType(SocialShareScene.SHARE_TYPE_QQ);
                 SocialSDK.shareToQQ(SocialShareActivity.this, info.getQqAppId(), scene);
-                clickIndex = 3;
             }
         });
         sbQZone = (ShareButton) findViewById(R.id.social_share_sb_qzone);
         sbQZone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scene.setType(SocialShareScene.SHARE_TYPE_QZONE);
                 SocialSDK.shareToQZone(SocialShareActivity.this, info.getQqAppId(), scene);
-                clickIndex = 4;
             }
         });
         sbMore = (ShareButton) findViewById(R.id.social_share_sb_more);
         sbMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scene.setType(SocialShareScene.SHARE_TYPE_DEFAULT);
                 Intent share = new Intent(android.content.Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT, scene.getTitle() + "\n\r" + scene.getUrl());
                 share.putExtra(Intent.EXTRA_TITLE, scene.getTitle());
                 share.putExtra(Intent.EXTRA_SUBJECT, scene.getDesc());
                 startActivity(share);
-                clickIndex = 5;
             }
         });
     }
@@ -115,7 +113,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (clickIndex == 2) {
+        if (scene.getType() == SocialShareScene.SHARE_TYPE_WEIBO) {
             SocialSDK.shareToWeiboCallback(intent, this);
             finish();
         }
@@ -149,10 +147,11 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (clickIndex == 0 || clickIndex == 1 || clickIndex == 5) {
+    protected void onRestart() {
+        super.onRestart();
+        if (scene.getType() == SocialShareScene.SHARE_TYPE_WECHAT || scene.getType() == SocialShareScene.SHARE_TYPE_WECHAT_TIMELINE) {
             finish();
         }
     }
+
 }

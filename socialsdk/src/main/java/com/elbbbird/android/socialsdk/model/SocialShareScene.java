@@ -42,6 +42,15 @@ public class SocialShareScene implements Serializable {
         this.url = url;
     }
 
+    public SocialShareScene(int id, String appName, String title, String desc, String thumbnail, String url) {
+        this.id = id;
+        this.appName = appName;
+        this.title = title;
+        this.desc = desc;
+        this.thumbnail = thumbnail;
+        this.url = url;
+    }
+
     public String getAppName() {
         return appName;
     }
