@@ -39,21 +39,21 @@ protected void onDestroy() {
 添加回调接口   
 ```java
 @Subscribe
-public void onOauthResult(BusEvent event) {
+public void onOauthResult(SSOBusEvent event) {
     switch (event.getType()) {
-        case BusEvent.TYPE_GET_TOKEN:
+        case SSOBusEvent.TYPE_GET_TOKEN:
             SocialToken token = event.getToken();
             Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
             break;
-        case BusEvent.TYPE_GET_USER:
+        case SSOBusEvent.TYPE_GET_USER:
             SocialUser user = event.getUser();
             Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
             break;
-        case BusEvent.TYPE_FAILURE:
+        case SSOBusEvent.TYPE_FAILURE:
             Exception e = event.getException();
             Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
             break;
-        case BusEvent.TYPE_CANCEL:
+        case SSOBusEvent.TYPE_CANCEL:
             Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
             break;
     }
@@ -113,6 +113,46 @@ SocialSDK.revoke(context);
 
 ## 全社交平台一键分享功能
 
+### SDK中`SocialShareScene`的定义
+```java
+/**
+ * 社会化分享数据类
+ */
+public class SocialShareScene implements Serializable {
+
+    public static final int SHARE_TYPE_DEFAULT = 0;
+    public static final int SHARE_TYPE_WEIBO = 1;
+    public static final int SHARE_TYPE_WECHAT = 2;
+    public static final int SHARE_TYPE_WECHAT_TIMELINE = 3;
+    public static final int SHARE_TYPE_QQ = 4;
+    public static final int SHARE_TYPE_QZONE = 5;
+
+    /**
+     * @param id        分享唯一标识符，可随意指定，会在分享结果ShareBusEvent中返回
+     * @param appName   分享到QQ时需要指定，会在分享弹窗中显示该字段
+     * @param type      分享类型
+     * @param title     标题
+     * @param desc      简短描述
+     * @param thumbnail 缩略图网址
+     * @param url       WEB网址
+     */
+    public SocialShareScene(int id, String appName, int type, String title, String desc, String thumbnail, String url) {
+        this.id = id;
+        this.appName = appName;
+        this.type = type;
+        this.title = title;
+        this.desc = desc;
+        this.thumbnail = thumbnail;
+        this.url = url;
+    }
+
+    public SocialShareScene(int id, String appName, String title, String desc, String thumbnail, String url) {
+    ....
+}
+```
+
+**一键分享需要调用第二个构造函数，type类型在SDK内部自动指定**
+
 ### 分享结果回调
 
 ```java
@@ -131,6 +171,13 @@ public void onShareResult(ShareBusEvent event) {
             break;
     }
 }
+```
+
+### 一键分享
+```java
+SocialSDK.setDebugMode(true);
+SocialSDK.init("wechat_app_id", "weibo_app_id", "qq_app_id");
+SocialSDK.shareTo(context, scene);
 ```
 
 ## FAQ
