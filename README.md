@@ -20,47 +20,7 @@ compile 'com.elbbbird.android:socialsdk:0.2.0@aar'
 SocialSDK.setDebugMode(true); //默认false
 ```
 
-## 全社交平台一键登录授权功能
-
-### 授权结果回调   
-SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。
-在调用`SocialSDK.oauth()`接口`Activity`的`onCreate()`方法内添加   
-```java
-BusProvider.getInstance().register(this);
-```
-在该`Activity`的`onDestroy()`方法添加   
-```java
-@Override
-protected void onDestroy() {
-    BusProvider.getInstance().unregister(this);
-    super.onDestroy();
-}
-```
-添加回调接口   
-```java
-@Subscribe
-public void onOauthResult(SSOBusEvent event) {
-    switch (event.getType()) {
-        case SSOBusEvent.TYPE_GET_TOKEN:
-            SocialToken token = event.getToken();
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
-            break;
-        case SSOBusEvent.TYPE_GET_USER:
-            SocialUser user = event.getUser();
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
-            break;
-        case SSOBusEvent.TYPE_FAILURE:
-            Exception e = event.getException();
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
-            break;
-        case SSOBusEvent.TYPE_CANCEL:
-            Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
-            break;
-    }
-}
-```
-
-### 一键登录
+## 项目配置
 - 配置微博后台回调地址   
 SDK的默认回调地址为`http://www.sina.com`，需要在微博后台配置，否则会提示回调地址错误。   
 如果在`SocialSDK.init()`方法自定义了回调地址，需要在后台配置为相应地址。
@@ -100,18 +60,59 @@ public class WXEntryActivity extends WXCallbackActivity {
 ```
 **以上配置中的`XXXXXXXXX`换成app_id.**
 
-- oauth
+
+## 一键登录授权功能（微博，微信，QQ）
+
+### 授权结果回调   
+SDK使用了[Otto](http://square.github.io/otto/)作为事件库，用以组件通信。
+在调用`SocialSDK.oauth()`接口`Activity`的`onCreate()`方法内添加   
+```java
+BusProvider.getInstance().register(this);
+```
+在该`Activity`的`onDestroy()`方法添加   
+```java
+@Override
+protected void onDestroy() {
+    BusProvider.getInstance().unregister(this);
+    super.onDestroy();
+}
+```
+添加回调接口   
+```java
+@Subscribe
+public void onOauthResult(SSOBusEvent event) {
+    switch (event.getType()) {
+        case SSOBusEvent.TYPE_GET_TOKEN:
+            SocialToken token = event.getToken();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_TOKEN " + token.toString());
+            break;
+        case SSOBusEvent.TYPE_GET_USER:
+            SocialUser user = event.getUser();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
+            break;
+        case SSOBusEvent.TYPE_FAILURE:
+            Exception e = event.getException();
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_FAILURE " + e.toString());
+            break;
+        case SSOBusEvent.TYPE_CANCEL:
+            Log.i(TAG, "onOauthResult#BusEvent.TYPE_CANCEL");
+            break;
+    }
+}
+```
+
+### Oauth
 ```java
 SocialSDK.init("wechat_app_id", "wechat_app_secret", "weibo_app_id", "qq_app_id");
 SocialSDK.oauth(context);
 ```
 
-- revoke
+### Revoke
 ```java
 SocialSDK.revoke(context);
 ```
 
-## 全社交平台一键分享功能
+## 一键分享功能（微博，微信，朋友圈，QQ，QQ空间）
 
 ### SDK中`SocialShareScene`的定义
 ```java
@@ -173,7 +174,7 @@ public void onShareResult(ShareBusEvent event) {
 }
 ```
 
-### 一键分享
+### ShareTo
 ```java
 SocialSDK.setDebugMode(true);
 SocialSDK.init("wechat_app_id", "weibo_app_id", "qq_app_id");
@@ -187,6 +188,9 @@ SocialSDK.shareTo(context, scene);
 微信应用程序注册后，需要配置包名和签名，并提交审核通过，可以获得分享权限。SSO登录权限需要开发者认证。（保护费不到位，测试都不能做）   
 QQ需要在后台配置测试账号才能SSO登录。
 
+- 如果只需要SDK中SSO授权和分享功能其中之一，`项目配置`是否有删减？   
+集成任何其中一个功能都需要做这些配置。
+
 - 是否需要配置权限？   
 SDK已经在aar中添加三个平台需要的权限，以下   
 ```xml
@@ -198,3 +202,19 @@ SDK已经在aar中添加三个平台需要的权限，以下
 ```
 
 - ProGrard代码混淆
+
+```
+##微信
+-keep class com.tencent.mm.sdk.** {*;}
+
+##微博
+-keep public class com.sina.weibo.** {*;}
+-keep public class com.sina.sso.** {*;}
+
+##otto
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.squareup.otto.Subscribe public *;
+    @com.squareup.otto.Produce public *;
+}
+```
