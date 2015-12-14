@@ -34,6 +34,8 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
     private ShareButton sbQZone;
     private ShareButton sbMore;
 
+    private int clickIndex = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
             @Override
             public void onClick(View v) {
                 SocialSDK.shareToWeChat(SocialShareActivity.this, info.getWechatAppId(), scene);
+                clickIndex = 0;
             }
         });
         sbWeChatTimeline = (ShareButton) findViewById(R.id.social_share_sb_wechat_timeline);
@@ -61,6 +64,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
             @Override
             public void onClick(View v) {
                 SocialSDK.shareToWeChatTimeline(SocialShareActivity.this, info.getWechatAppId(), scene);
+                clickIndex = 1;
             }
         });
         sbWeibo = (ShareButton) findViewById(R.id.social_share_sb_weibo);
@@ -68,6 +72,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
             @Override
             public void onClick(View v) {
                 SocialSDK.shareToWeibo(SocialShareActivity.this, info.getWeiboAppKey(), scene);
+                clickIndex = 2;
             }
         });
         sbQQ = (ShareButton) findViewById(R.id.social_share_sb_qq);
@@ -75,6 +80,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
             @Override
             public void onClick(View v) {
                 SocialSDK.shareToQQ(SocialShareActivity.this, info.getQqAppId(), scene);
+                clickIndex = 3;
             }
         });
         sbQZone = (ShareButton) findViewById(R.id.social_share_sb_qzone);
@@ -82,6 +88,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
             @Override
             public void onClick(View v) {
                 SocialSDK.shareToQZone(SocialShareActivity.this, info.getQqAppId(), scene);
+                clickIndex = 4;
             }
         });
         sbMore = (ShareButton) findViewById(R.id.social_share_sb_more);
@@ -94,6 +101,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
                 share.putExtra(Intent.EXTRA_TITLE, scene.getTitle());
                 share.putExtra(Intent.EXTRA_SUBJECT, scene.getDesc());
                 startActivity(share);
+                clickIndex = 5;
             }
         });
     }
@@ -107,8 +115,10 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
-        SocialSDK.shareToWeiboCallback(intent, this);
+        if (clickIndex == 2) {
+            SocialSDK.shareToWeiboCallback(intent, this);
+            finish();
+        }
     }
 
     @Override
@@ -133,7 +143,16 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
 
         if (requestCode == Constants.REQUEST_QZONE_SHARE || requestCode == Constants.REQUEST_QQ_SHARE) {
             SocialSDK.shareToQCallback(requestCode, resultCode, data);
+            finish();
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (clickIndex == 0 || clickIndex == 1) {
+            finish();
+        }
     }
 }
