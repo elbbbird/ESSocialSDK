@@ -18,8 +18,19 @@
 
 -dontwarn org.apache.http.**
 
-#OkHttp
--dontwarn okio.**
+##微信
+-keep class com.tencent.mm.sdk.** {*;}
+
+##微博
+-keep public class com.sina.weibo.** {*;}
+-keep public class com.sina.sso.** {*;}
+
+##otto
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.squareup.otto.Subscribe public *;
+    @com.squareup.otto.Produce public *;
+}
 
 #Butter Knife
 -keep class butterknife.** { *; }
