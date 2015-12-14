@@ -67,7 +67,7 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
         sbWeibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialSDK.shareToWeibo(SocialShareActivity.this, info.getQqAppId(), scene);
+                SocialSDK.shareToWeibo(SocialShareActivity.this, info.getWeiboAppKey(), scene);
             }
         });
         sbQQ = (ShareButton) findViewById(R.id.social_share_sb_qq);
