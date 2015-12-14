@@ -121,7 +121,8 @@ public class SocialShareActivity extends Activity implements IWeiboHandler.Respo
                 BusProvider.getInstance().post(new ShareBusEvent(ShareBusEvent.TYPE_CANCEL, scene.getType()));
                 break;
             case WBConstants.ErrorCode.ERR_FAIL:
-                BusProvider.getInstance().post(new ShareBusEvent(ShareBusEvent.TYPE_FAILURE, scene.getType(), new Exception("WBConstants.ErrorCode.ERR_FAIL")));
+                BusProvider.getInstance().post(new ShareBusEvent(ShareBusEvent.TYPE_FAILURE, scene.getType(), new Exception("WBConstants.ErrorCode.ERR_FAIL: "
+                        + baseResponse.errMsg)));
                 break;
         }
     }

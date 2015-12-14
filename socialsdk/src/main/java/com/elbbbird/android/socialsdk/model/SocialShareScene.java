@@ -24,7 +24,9 @@ public class SocialShareScene implements Serializable {
     private String url;
 
     /**
-     * @param type      分享类型
+     * @param id        分享唯一标识符，可随意指定，会在分享结果ShareBusEvent中返回
+     * @param appName   分享到QQ时需要指定，会在分享弹窗中显示该字段
+     * @param type      分享类型，会在分享结果ShareBusEvent中作为platform返回
      * @param title     标题
      * @param desc      简短描述
      * @param thumbnail 缩略图网址
