@@ -27,5 +27,5 @@ script:
   - ./gradlew -Ptype="ci" build
 
 notifications:
-  webhooks: https://hook.bearychat.com/=bw7jj/travis/0058670829e6419e5093cc44828c10f6
+  slack: elbbbird:oZtbiJ73VHFwjgrWqVQlfqy7
   email: false
