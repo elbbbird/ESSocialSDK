@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.elbbbird.android.socialsdk.SocialSDK;
 import com.elbbbird.android.socialsdk.model.SocialToken;
@@ -74,6 +75,7 @@ public class SsoAllActivity extends BaseActivity {
             case SSOBusEvent.TYPE_GET_USER:
                 SocialUser user = event.getUser();
                 Log.i(TAG, "onOauthResult#BusEvent.TYPE_GET_USER " + user.toString());
+                Toast.makeText(SsoAllActivity.this, "ShareBusEvent.TYPE_GET_USER \n\r" + user.toString(), Toast.LENGTH_SHORT).show();
                 break;
             case SSOBusEvent.TYPE_FAILURE:
                 Exception e = event.getException();

@@ -17,7 +17,8 @@
         android:id="@+id/main_btn_sso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="单个社交平台授权" />
+        android:text="单个社交平台授权"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/main_btn_sso_all"
@@ -29,7 +30,8 @@
         android:id="@+id/main_btn_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="单个社交平台分享" />
+        android:text="单个社交平台分享"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/main_btn_share_all"
