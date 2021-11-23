@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">ESSocialSDK</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_share">ShareActivity</string>
-    <string name="title_activity_share_all">ShareAllActivity</string>
-    <string name="title_activity_sso">SsoActivity</string>
-    <string name="title_activity_sso_all">SsoAllActivity</string>
-</resources>
